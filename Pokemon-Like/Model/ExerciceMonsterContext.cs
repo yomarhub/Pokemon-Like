@@ -31,7 +31,7 @@ public partial class ExerciceMonsterContext : DbContext
     {
         modelBuilder.Entity<Login>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Login__3214EC273C4958AD");
+            entity.HasKey(e => e.Id).HasName("PK__Login__3214EC27B079B24B");
 
             entity.ToTable("Login");
 
@@ -42,11 +42,14 @@ public partial class ExerciceMonsterContext : DbContext
 
         modelBuilder.Entity<Monster>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Monster__3214EC27D16CD43A");
+            entity.HasKey(e => e.Id).HasName("PK__Monster__3214EC27D7812791");
 
             entity.ToTable("Monster");
 
             entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.ImageUrl)
+                .HasMaxLength(255)
+                .HasColumnName("ImageURL");
             entity.Property(e => e.Name).HasMaxLength(50);
 
             entity.HasMany(d => d.Spells).WithMany(p => p.Monsters)
@@ -62,7 +65,7 @@ public partial class ExerciceMonsterContext : DbContext
                         .HasConstraintName("FK__MonsterSp__Monst__440B1D61"),
                     j =>
                     {
-                        j.HasKey("MonsterId", "SpellId").HasName("PK__MonsterS__293EA4DFA0054F32");
+                        j.HasKey("MonsterId", "SpellId").HasName("PK__MonsterS__293EA4DF8DCAB772");
                         j.ToTable("MonsterSpell");
                         j.IndexerProperty<int>("MonsterId").HasColumnName("MonsterID");
                         j.IndexerProperty<int>("SpellId").HasColumnName("SpellID");
@@ -71,7 +74,7 @@ public partial class ExerciceMonsterContext : DbContext
 
         modelBuilder.Entity<Player>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Player__3214EC271724E06B");
+            entity.HasKey(e => e.Id).HasName("PK__Player__3214EC27A3BC018E");
 
             entity.ToTable("Player");
 
@@ -96,7 +99,7 @@ public partial class ExerciceMonsterContext : DbContext
                         .HasConstraintName("FK__PlayerMon__Playe__403A8C7D"),
                     j =>
                     {
-                        j.HasKey("PlayerId", "MonsterId").HasName("PK__PlayerMo__378F20A44D7E2D7D");
+                        j.HasKey("PlayerId", "MonsterId").HasName("PK__PlayerMo__378F20A4AB6B4F58");
                         j.ToTable("PlayerMonster");
                         j.IndexerProperty<int>("PlayerId").HasColumnName("PlayerID");
                         j.IndexerProperty<int>("MonsterId").HasColumnName("MonsterID");
@@ -105,7 +108,7 @@ public partial class ExerciceMonsterContext : DbContext
 
         modelBuilder.Entity<Spell>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Spell__3214EC27C913CC0C");
+            entity.HasKey(e => e.Id).HasName("PK__Spell__3214EC27352EB6D6");
 
             entity.ToTable("Spell");
 

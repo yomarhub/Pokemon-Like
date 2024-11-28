@@ -27,7 +27,7 @@ namespace Pokemon_Like.MVVM.ViewModel
         {
             MainWindowVM.OnRequestVMChange += HandleRequestViewChange;
             MainWindowVM.OnRequestVMChange?.Invoke(new MainViewVM());
-
+            
         }
 
         public void HandleRequestViewChange(BaseVM a_VMToChange)

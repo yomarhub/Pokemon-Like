@@ -10,10 +10,18 @@
     Title="MainWindow"
     Width="800"
     Height="450"
+    Style="{StaticResource MaterialDesignWindow}"
     mc:Ignorable="d">
+
     <Window.Resources>
         <DataTemplate DataType="{x:Type VM:MainViewVM}">
             <View:MainView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type VM:LoginViewVM}">
+            <View:LoginView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type VM:SettingsViewVM}">
+            <View:LoginView />
         </DataTemplate>
     </Window.Resources>
 
