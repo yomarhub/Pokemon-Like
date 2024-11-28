@@ -1,4 +1,8 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -8,21 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Pokemon_Like.MVVM.ViewModel;
 
-namespace Pokemon_Like
+namespace Pokemon_Like.MVVM.View
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Logique d'interaction pour MainView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainView : UserControl
     {
-        public MainWindowVM MainWindowVM {  get; set; }
-        public MainWindow()
+        public MainView()
         {
             InitializeComponent();
-            MainWindowVM = new MainWindowVM();
-            DataContext = MainWindowVM;
         }
     }
 }
