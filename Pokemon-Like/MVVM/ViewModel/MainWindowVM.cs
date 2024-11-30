@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Pokemon_Like.MVVM.ViewModel
+﻿namespace Pokemon_Like.MVVM.ViewModel
 {
     public class MainWindowVM : BaseVM
     {
@@ -27,7 +21,7 @@ namespace Pokemon_Like.MVVM.ViewModel
         {
             MainWindowVM.OnRequestVMChange += HandleRequestViewChange;
             MainWindowVM.OnRequestVMChange?.Invoke(new MainViewVM());
-            
+
         }
 
         public void HandleRequestViewChange(BaseVM a_VMToChange)

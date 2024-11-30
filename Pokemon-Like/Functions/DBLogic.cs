@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
+using Pokemon_Like.Model;
 
-namespace Pokemon_Like.Model
+namespace Pokemon_Like.Functions
 {
     public class DBLogic
     {
@@ -13,6 +9,11 @@ namespace Pokemon_Like.Model
         public DBLogic()
         {
             MessageBox.Show(_context.Database.EnsureCreated().ToString());
+        }
+
+        public static void Save()
+        {
+            _context.SaveChanges();
         }
         #region User
         public static Login AddUser(Login User)

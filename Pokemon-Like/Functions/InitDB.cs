@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Pokemon_Like.Model;
 
-namespace Pokemon_Like.Model
+namespace Pokemon_Like.Functions
 {
     public class Init
     {

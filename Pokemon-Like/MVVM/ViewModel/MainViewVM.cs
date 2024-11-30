@@ -1,14 +1,6 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using Microsoft.Xaml.Behaviors.Core;
-using Pokemon_Like.Model;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
+using Pokemon_Like.Functions;
 
 namespace Pokemon_Like.MVVM.ViewModel
 {
@@ -38,8 +30,7 @@ namespace Pokemon_Like.MVVM.ViewModel
 
         private void HandleRequestAddUser()
         {
-            //Login user = DBLogic.AddUser(new Login { Username = "user", PasswordHash = Convert.ToBase64String(Encoding.ASCII.GetBytes("password")) });
-            new DBLogic();
+            GameData.GetDataFromJson(new Model.ExerciceMonsterContext());
         }
     }
 }

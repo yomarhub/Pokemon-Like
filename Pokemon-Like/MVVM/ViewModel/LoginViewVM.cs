@@ -1,13 +1,14 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
+using Pokemon_Like.Functions;
 using Pokemon_Like.Model;
 
 namespace Pokemon_Like.MVVM.ViewModel
 {
     public class LoginViewVM : BaseVM
     {
-        
+
         public ICommand RequestLogin { get; set; }
         private string userName = "test";
         public string UserName
@@ -38,10 +39,11 @@ namespace Pokemon_Like.MVVM.ViewModel
 
         private void PerformRequestLogin()
         {
-            MessageBox.Show($"Login requested : {UserName}");
-            Login? found = _context.Logins.FirstOrDefault(u =>
-                u.Username == UserName && u.PasswordHash == Password
-            );
+            string hashedPassword = Hash.CreateHash(Password);
+            MessageBox.Show($"Login requested : {UserName}" +
+                $"\nPassword : {Password}" +
+                $"\nHash : {hashedPassword}");
+            Login? found = _context.Logins.FirstOrDefault(u => u.Username == UserName && u.PasswordHash == hashedPassword);
             if (found != null)
             {
                 MessageBox.Show($"found : {found.Id}, {found.Username}, {found.PasswordHash}");
