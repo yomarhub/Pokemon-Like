@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Pokemon_Like.Components
 {
@@ -30,8 +18,15 @@ namespace Pokemon_Like.Components
 
         // Using a DependencyProperty as the backing store for Password.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PasswordProperty =
-            DependencyProperty.Register("Password", typeof(string), typeof(BindablePasswordBox), new PropertyMetadata(string.Empty));
+            DependencyProperty.Register("Password", typeof(string), typeof(BindablePasswordBox), new PropertyMetadata(string.Empty, GetDefault));
 
+        private static void GetDefault(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is BindablePasswordBox passwordBox)
+            {
+                passwordBox.PasswordUpdate();
+            }
+        }
 
         public BindablePasswordBox()
         {
@@ -41,6 +36,10 @@ namespace Pokemon_Like.Components
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
             Password = passwordBox.Password;
+        }
+        private void PasswordUpdate()
+        {
+            passwordBox.Password = Password;
         }
     }
 }
