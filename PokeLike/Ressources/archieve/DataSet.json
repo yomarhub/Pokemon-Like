@@ -1,0 +1,94 @@
+{
+    "Login": [
+        {
+            "ID": 1,
+            "Username": "player1",
+            "PasswordHash": "hash12345"
+        },
+        {
+            "ID": 2,
+            "Username": "player2",
+            "PasswordHash": "hash67890"
+        }
+    ],
+    "Player": [
+        {
+            "ID": 1,
+            "Name": "Alice",
+            "LoginID": 1
+        },
+        {
+            "ID": 2,
+            "Name": "Bob",
+            "LoginID": 2
+        }
+    ],
+    "Monster": [
+        {
+            "ID": 1,
+            "Name": "Goblin",
+            "Health": 100,
+            "ImageURL": "https://example.com/images/goblin.png"
+        },
+        {
+            "ID": 2,
+            "Name": "Dragon",
+            "Health": 500,
+            "ImageURL": "https://example.com/images/dragon.png"
+        },
+        {
+            "ID": 3,
+            "Name": "Troll",
+            "Health": 250,
+            "ImageURL": "https://example.com/images/troll.png"
+        }
+    ],
+    "Spell": [
+        {
+            "ID": 1,
+            "Name": "Fireball",
+            "Damage": 50,
+            "Description": "A fiery projectile that burns the target."
+        },
+        {
+            "ID": 2,
+            "Name": "Heal",
+            "Damage": -30,
+            "Description": "Restores health to the target."
+        },
+        {
+            "ID": 3,
+            "Name": "Lightning Strike",
+            "Damage": 70,
+            "Description": "A powerful strike of lightning that shocks the enemy."
+        }
+    ],
+    "PlayerMonster": [
+        {
+            "PlayerID": 1,
+            "MonsterID": 1
+        },
+        {
+            "PlayerID": 1,
+            "MonsterID": 3
+        },
+        {
+            "PlayerID": 2,
+            "MonsterID": 2
+        }
+    ],
+    "MonsterSpell": [
+        {
+            "MonsterID": 1,
+            "SpellID": 1
+        },
+        {
+            "MonsterID": 1,
+            "SpellID": 2
+        },
+        {
+            "MonsterID": 2,
+            "SpellID": 3
+        }
+    ]
+}
