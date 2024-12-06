@@ -7,24 +7,47 @@
     xmlns:local="clr-namespace:PokeLike.MVVM.View"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DataContext="{d:DesignInstance Type=VM:GameViewVM}"
-    d:DesignHeight="750"
+    d:DesignHeight="600"
     d:DesignWidth="800"
     mc:Ignorable="d">
     <UserControl.Resources>
         <ImageBrush
             x:Key="Combat"
             AlignmentY="Top"
-            ImageSource="\Ressources\Images\combat.png"
+            ImageSource="\Ressources\Images\attacks.png"
             Stretch="Uniform" />
+        <Style x:Key="pokemon" TargetType="Image">
+            <Setter Property="Width" Value="300" />
+            <Setter Property="Height" Value="300" />
+        </Style>
     </UserControl.Resources>
-    <Border Background="Purple">
+
+    <Border Background="#FFE0E1DB">
+        <!--Canvas Background="{StaticResource Combat}">
+            <Image
+                Grid.Row="0"
+                Grid.Column="2"
+                Width="300"
+                Height="300"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Source="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/120.png" Canvas.Left="426" Canvas.Top="55" />
+            <Image
+                Grid.Row="1"
+                Grid.RowSpan="3"
+                Grid.ColumnSpan="2"
+                Width="300"
+                Height="300"
+                Source="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/8.png" Canvas.Left="100" Canvas.Top="205" />
+
+        </Canvas-->
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="3.75*" />
+                <RowDefinition Height="75*" />
+                <RowDefinition Height="150*" />
+                <RowDefinition Height="75*"/>
+                <RowDefinition Height="239*" />
+                <RowDefinition Height="61*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
@@ -32,31 +55,28 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
                 <ColumnDefinition />
+                <ColumnDefinition Width="2*" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Border
-                Grid.RowSpan="4"
-                Grid.ColumnSpan="6"
+                Grid.RowSpan="5"
+                Grid.ColumnSpan="7"
                 Background="{StaticResource Combat}" />
             <Image
-                Grid.RowSpan="4"
-                Grid.Column="4"
-                Width="236"
-                Height="236"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Source="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png" />
-            <Image
-                Grid.Row="2"
-                Grid.RowSpan="3"
-                Grid.Column="1"
-                Width="238"
-                Height="238"
-                Margin="0,10,0,0"
+                Grid.Column="5"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
-                Source="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/35.png"
-                Stretch="UniformToFill" />
+                RenderTransformOrigin="0.612,0.498"
+                Source="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/120.png"
+                Style="{StaticResource pokemon}" Height="300" Width="300" Margin="0,38,0,0" Grid.RowSpan="4" />
+            <Image
+                Grid.Row="2"
+                Grid.RowSpan="2"
+                Grid.Column="1"
+                Grid.ColumnSpan="3"
+                Margin="0,8,0,6"
+                Source="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/8.png"
+                Style="{StaticResource pokemon}" />
         </Grid>
     </Border>
 
