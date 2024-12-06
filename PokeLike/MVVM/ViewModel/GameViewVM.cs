@@ -6,7 +6,7 @@ namespace PokeLike.MVVM.ViewModel
     {
         public GameViewVM() : base()
         {
-            MainWindowVM.OnRequestChangeSize?.Invoke(new Size(800, 750));
+            MainWindowVM.OnRequestChangeSize?.Invoke(new Size(675, 450));
         }
 
     }
