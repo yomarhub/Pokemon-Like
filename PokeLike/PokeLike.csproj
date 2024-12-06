@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
+    <PackageReference Include="MaterialDesignThemes" Version="5.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
       <PrivateAssets>all</PrivateAssets>
@@ -28,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Ressources\Images\*"/>
+    <Resource Include="Ressources\Images\**\*.*" />
   </ItemGroup>
 
   <ItemGroup>

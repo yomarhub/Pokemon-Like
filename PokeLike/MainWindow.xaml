@@ -10,7 +10,10 @@
     Title="MainWindow"
     Width="800"
     Height="450"
+    d:DataContext="{d:DesignInstance Type=vm:MainWindowVM}"
+    Style="{StaticResource MaterialDesignWindow}"
     mc:Ignorable="d">
+
     <Window.Resources>
         <DataTemplate DataType="{x:Type vm:MainViewVM}">
             <view:MainView />
@@ -26,7 +29,7 @@
         </DataTemplate>
     </Window.Resources>
 
-    <Grid>
+    <Grid Background="{StaticResource BackgroundImage}">
         <ContentControl Content="{Binding CurrentVM}" />
     </Grid>
 </Window>
