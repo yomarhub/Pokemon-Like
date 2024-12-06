@@ -1,10 +1,12 @@
-﻿using PokeLike.Functions;
+﻿using System.Windows;
+using PokeLike.Functions;
 
 namespace PokeLike.MVVM.ViewModel
 {
     public class MainWindowVM : BaseVM
     {
         #region Variables
+        public static Action<Size>? OnRequestChangeSize { get; set; }
         public static Action<BaseVM>? OnRequestVMChange { get; set; }
         private BaseVM _currentVM = new MainViewVM();
         public BaseVM CurrentVM
@@ -20,9 +22,15 @@ namespace PokeLike.MVVM.ViewModel
 
         public MainWindowVM()
         {
-            MainWindowVM.OnRequestVMChange += HandleRequestViewChange;
-            MainWindowVM.OnRequestVMChange?.Invoke(new MainViewVM());
+            OnRequestVMChange += HandleRequestViewChange;
+            OnRequestVMChange?.Invoke(new MainViewVM());
+            OnRequestChangeSize += HandleRequestChangeSize;
             _ = new Init();
+        }
+        public static void HandleRequestChangeSize(Size size)
+        {
+            Application.Current.MainWindow.Width = size.Width;
+            Application.Current.MainWindow.Height = size.Height;
         }
         public void HandleRequestViewChange(BaseVM a_VMToChange)
         {

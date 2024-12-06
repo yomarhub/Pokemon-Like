@@ -1,31 +1,13 @@
-﻿namespace PokeLike.MVVM.ViewModel
+﻿using System.Windows;
+
+namespace PokeLike.MVVM.ViewModel
 {
     public class GameViewVM : BaseVM
     {
-        #region Variables
-
-        private string userName = "test";
-        public string UserName
+        public GameViewVM() : base()
         {
-            get => userName;
-            set
-            {
-                SetProperty(ref userName, value);
-                OnPropertyChanged(nameof(UserName));
-            }
+            MainWindowVM.OnRequestChangeSize?.Invoke(new Size(800, 750));
         }
-
-        private string password = "test";
-        public string Password
-        {
-            get => password;
-            set
-            {
-                SetProperty(ref password, value);
-                OnPropertyChanged(nameof(Password));
-            }
-        }
-        #endregion
 
     }
 }
