@@ -1,47 +1,38 @@
-﻿<UserControl
-    x:Class="PokeLike.MVVM.View.GameView"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:VM="clr-namespace:PokeLike.MVVM.ViewModel"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:PokeLike.MVVM.View"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DataContext="{d:DesignInstance Type=VM:GameViewVM}"
-    d:DesignHeight="450"
-    d:DesignWidth="675"
-    mc:Ignorable="d">
+﻿<UserControl x:Class="PokeLike.MVVM.View.GameView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:VM="clr-namespace:PokeLike.MVVM.ViewModel"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:PokeLike.MVVM.View"
+             xmlns:m="clr-namespace:PokeLike.Model"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DataContext="{d:DesignInstance Type=VM:GameViewVM}"
+             d:DesignHeight="450"
+             d:DesignWidth="675"
+             mc:Ignorable="d">
 
     <!--  Ratio 3:2 (x:y)  -->
     <UserControl.Resources>
-        <ImageBrush
-            x:Key="Choice"
-            AlignmentY="Bottom"
-            ImageSource="\Ressources\Images\attackchoice.png"
-            Stretch="Uniform" />
-        <ImageBrush
-            x:Key="Combat"
-            AlignmentY="Top"
-            ImageSource="\Ressources\Images\backgrounds\00.png"
-            Stretch="Uniform" />
         <Style x:Key="pokemon" TargetType="Image">
             <Setter Property="Width" Value="300" />
             <Setter Property="Height" Value="300" />
         </Style>
+        <DataTemplate x:Key="Spell">
+            <Label HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Content="{Binding Name}"
+                   FontFamily="{StaticResource PokeFont}"
+                   FontSize="24" />
+        </DataTemplate>
     </UserControl.Resources>
 
-    <Border
-        HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch"
-        Background="#FFE0E1DB">
-        <Grid>
+    <Viewbox Stretch="Uniform">
+        <Grid Width="675" Height="450">
             <Grid.RowDefinitions>
                 <RowDefinition Height="7*" />
                 <RowDefinition Height="3*" />
             </Grid.RowDefinitions>
-            <Border
-                Grid.Row="0"
-                Grid.RowSpan="2"
-                Background="{StaticResource Combat}" />
+            <Grid Grid.Row="0" Background="{StaticResource b00}" />
             <!--Grid>
                 <Image
                     Grid.Row="1"
@@ -56,8 +47,38 @@
                     Source="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/8.png"
                     Style="{StaticResource pokemon}" Margin="10,0,1,129" Grid.RowSpan="2" Grid.Column="1" />
             </Grid-->
-            <Border Grid.RowSpan="2" Background="{StaticResource Choice}" />
+            <Border Grid.Row="1" Background="{StaticResource Choice}">
+                <Grid Width="675" Height="135" VerticalAlignment="Bottom">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <!--  RowDefinition Height="0.125*" /  -->
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Column="2"
+                           Width="56"
+                           Height="34"
+                           Margin="0,0,73,10"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Bottom"
+                           Content="00"
+                           FontFamily="{StaticResource PokeFont}"
+                           FontSize="24" />
+                    <Label Grid.Row="1"
+                           Grid.Column="2"
+                           Margin="90,10,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Content="00"
+                           FontFamily="{StaticResource PokeFont}"
+                           FontSize="24" />
+                    <DataGrid Grid.RowSpan="2" Grid.ColumnSpan="2" ItemTemplate="{StaticResource Spell}"/>
+                </Grid>
+            </Border>
         </Grid>
-    </Border>
-
+    </Viewbox>
 </UserControl>

@@ -9,10 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Ressources\Images\*" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
     <PackageReference Include="MaterialDesignThemes" Version="5.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
@@ -29,7 +25,27 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Ressources\Images\**\*.*" />
+    <None Remove="Ressources\Images\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Ressources\Images\**\*.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Ressources\Images\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="*.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Ressources\Fonts\*.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>

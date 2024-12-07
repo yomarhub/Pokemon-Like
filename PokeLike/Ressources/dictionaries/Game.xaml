@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <FontFamily x:Key="PokeFont">pack://application:,,,/Ressources/Fonts/#Pokemon GB</FontFamily>
+    <FontFamily x:Key="PokeHollow">pack://application:,,,/Ressources/Fonts/#Pokemon Hollow Normal</FontFamily>
+    <FontFamily x:Key="PokeSolid">pack://application:,,,/Ressources/Fonts/#Pokemon Solid Normal</FontFamily>
+    <ImageBrush x:Key="Choice" AlignmentY="Bottom" ImageSource="\Ressources\Images\attackchoice.png" />
+    <ImageBrush x:Key="b00" AlignmentY="Top" ImageSource="\Ressources\Images\backgrounds\00.png" />
+    <ImageBrush x:Key="b01" AlignmentY="Top" ImageSource="\Ressources\Images\backgrounds\01.png" />
+    <ImageBrush x:Key="b02" AlignmentY="Top" ImageSource="\Ressources\Images\backgrounds\02.png" />
+    <ImageBrush x:Key="b03" AlignmentY="Top" ImageSource="\Ressources\Images\backgrounds\03.png" />
+    <ImageBrush x:Key="b04" AlignmentY="Top" ImageSource="\Ressources\Images\backgrounds\04.png" />
+    <ImageBrush x:Key="b05" AlignmentY="Top" ImageSource="\Ressources\Images\backgrounds\05.png" />
+    <ImageBrush x:Key="b06" AlignmentY="Top" ImageSource="\Ressources\Images\backgrounds\06.png" />
+    <ImageBrush x:Key="b07" AlignmentY="Top" ImageSource="\Ressources\Images\backgrounds\07.png" />
+    <ImageBrush x:Key="b08" AlignmentY="Top" ImageSource="\Ressources\Images\backgrounds\08.png" />
+    <ImageBrush x:Key="b09" AlignmentY="Top" ImageSource="\Ressources\Images\backgrounds\09.png" />
+</ResourceDictionary>

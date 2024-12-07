@@ -12,13 +12,13 @@ namespace PokeLike.MVVM.ViewModel
         {
             RequestDB = new RelayCommand(HandleRequestDB);
         }
+
         #region Handlers
         private void HandleRequestDB()
         {
             //Functions.Init.DB();
             //GameData.GetDataFromJson(new Model.ExerciceMonsterContext());
         }
-
         #endregion
     }
 }

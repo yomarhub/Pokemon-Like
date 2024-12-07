@@ -1,27 +1,18 @@
-﻿<Application
-    x:Class="PokeLike.App"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:PokeLike"
-    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-    StartupUri="MainWindow.xaml">
+﻿<Application x:Class="PokeLike.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:PokeLike"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <materialDesign:BundledTheme
-                    BaseTheme="Light"
-                    PrimaryColor="DeepPurple"
-                    SecondaryColor="Lime" />
+                <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="DeepPurple" SecondaryColor="Lime" />
 
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign2.Defaults.xaml" />
+                <ResourceDictionary Source="Ressources/dictionaries/Game.xaml" />
+                <ResourceDictionary Source="Ressources/dictionaries/ViewLinks.xaml" />
             </ResourceDictionary.MergedDictionaries>
-
-            <ImageBrush
-                x:Key="BackgroundImage"
-                AlignmentX="Center"
-                AlignmentY="Center"
-                ImageSource="Ressources/Images/ultra.jpg"
-                Stretch="UniformToFill" />
 
             <!--  FlipX Style for Images  -->
             <Style x:Key="FlipX" TargetType="Image">
@@ -33,6 +24,11 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <ImageBrush x:Key="background"
+                        AlignmentX="Center"
+                        AlignmentY="Center"
+                        ImageSource="Ressources/Images/ultra.jpg"
+                        Stretch="UniformToFill" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>
