@@ -3,6 +3,7 @@
     <FontFamily x:Key="PokeFont">pack://application:,,,/Ressources/Fonts/#Pokemon GB</FontFamily>
     <FontFamily x:Key="PokeHollow">pack://application:,,,/Ressources/Fonts/#Pokemon Hollow Normal</FontFamily>
     <FontFamily x:Key="PokeSolid">pack://application:,,,/Ressources/Fonts/#Pokemon Solid Normal</FontFamily>
+    <ImageBrush x:Key="Nintendo" ImageSource="\Ressources\Images\backgrounds\nintendodsClearedRes.png" />
     <ImageBrush x:Key="Choice" AlignmentY="Bottom" ImageSource="\Ressources\Images\attackchoice.png" />
     <ImageBrush x:Key="b00" AlignmentY="Top" ImageSource="\Ressources\Images\backgrounds\00.png" />
     <ImageBrush x:Key="b01" AlignmentY="Top" ImageSource="\Ressources\Images\backgrounds\01.png" />

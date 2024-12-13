@@ -1,0 +1,46 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <DataTemplate x:Key="SpellList">
+        <Label Content="{Binding Name}" FontFamily="{StaticResource PokeFont}" FontSize="12" />
+    </DataTemplate>
+    <DataTemplate x:Key="PokeList">
+        <StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Image Width="100" Source="{Binding ImageUrl}" />
+                <TextBlock VerticalAlignment="Center"
+                           FontFamily="{StaticResource PokeFont}"
+                           FontSize="24"
+                           Foreground="Red"
+                           Text="{Binding Name}" />
+                <TextBlock VerticalAlignment="Center"
+                           FontFamily="{StaticResource PokeFont}"
+                           FontSize="24"
+                           Foreground="Red"
+                           Text="{Binding Players}" />
+            </StackPanel>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.Resources>
+                    <Style TargetType="Label">
+                        <Setter Property="FontFamily" Value="{StaticResource PokeFont}" />
+                        <Setter Property="FontSize" Value="12" />
+                        <Setter Property="HorizontalAlignment" Value="Left" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                        <Setter Property="Margin" Value="10" />
+                    </Style>
+                </Grid.Resources>
+                <Label Content="{Binding Spells[0].Name}" />
+                <Label Grid.Column="1" Content="{Binding Spells[1].Name}" />
+                <Label Grid.Row="1" Content="{Binding Spells[2].Name}" />
+                <Label Grid.Row="1" Grid.Column="1" Content="{Binding Spells[3].Name}" />
+            </Grid>
+        </StackPanel>
+    </DataTemplate>
+</ResourceDictionary>
