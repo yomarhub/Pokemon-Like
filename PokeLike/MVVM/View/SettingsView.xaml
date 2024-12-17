@@ -5,9 +5,9 @@
              xmlns:local="clr-namespace:PokeLike.MVVM.View"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewmodel="clr-namespace:PokeLike.MVVM.ViewModel"
-             d:DataContext="{d:DesignInstance Type=viewmodel:SettingsViewVM}"
-             Height="450"
              Width="800"
+             Height="450"
+             d:DataContext="{d:DesignInstance Type=viewmodel:SettingsViewVM}"
              mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>

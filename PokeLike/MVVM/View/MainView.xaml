@@ -5,9 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:PokeLike.MVVM.View"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             d:DataContext="{d:DesignInstance Type=VM:MainViewVM}"
-             Height="450"
              Width="800"
+             Height="450"
+             d:DataContext="{d:DesignInstance Type=VM:MainViewVM}"
              mc:Ignorable="d">
 
     <Grid>
@@ -98,7 +98,7 @@
                     CommandParameter="{x:Type VM:SpellListViewVM}"
                     Content="List Spells"
                     FontFamily="{StaticResource PokeFont}" />
-            <!--#region Toggle -->
+            <!--#region Toggle-->
             <!-->
                 <StackPanel Margin="10" HorizontalAlignment="Center" Orientation="Horizontal">
                     <TextBlock Text="Animations" />

@@ -6,9 +6,9 @@
              xmlns:local="clr-namespace:PokeLike.MVVM.View"
              xmlns:m="clr-namespace:PokeLike.Model"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             d:DataContext="{d:DesignInstance Type=VM:GameViewVM}"
-             Height="450"
              Width="675"
+             Height="450"
+             d:DataContext="{d:DesignInstance Type=VM:GameViewVM}"
              mc:Ignorable="d">
 
     <!--  Ratio 3:2 (x:y)  -->

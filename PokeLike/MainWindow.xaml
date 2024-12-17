@@ -13,7 +13,7 @@
         Style="{StaticResource MaterialDesignWindow}"
         mc:Ignorable="d">
     <Grid Background="{Binding Background}">
-        <!-- Width="800" Height="450" -->
+        <!--  Width="800" Height="450"  -->
         <ContentControl Content="{Binding CurrentVM}" />
         <materialDesign:Snackbar MessageQueue="{Binding MessageQueue}" />
     </Grid>
