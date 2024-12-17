@@ -4,11 +4,11 @@ namespace PokeLike.Functions
 {
     public class BattleMonster(Monster m) : Monster(m)
     {
+        public Action<int>? OnDamage { get; set; }
         public int CurrentHP { get; set; }
     }
     public class Battle()
     {
-
     }
     public static class BattleExtention
     {
@@ -23,6 +23,7 @@ namespace PokeLike.Functions
         public static void Attack(this Spell a, BattleMonster d)
         {
             d.CurrentHP -= (d.CurrentHP > a.Damage) ? a.Damage : d.CurrentHP;
+            d.OnDamage?.Invoke(d.CurrentHP);
             //if (d.CurrentHP <= 0) { Death?.Invoke(); }
         }
     }
