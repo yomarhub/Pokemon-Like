@@ -49,20 +49,29 @@ namespace PokeLike.MVVM.ViewModel
             Login? found = _context.Logins.FirstOrDefault(u => u.Username == UserName && u.PasswordHash == hashedPassword);
             if (found != null)
             {
-                MessageBox.Show($"found : {found.Id}, {found.Username}, {found.PasswordHash}");
-                MessageBox.Show("User found");
-                MessageBox.Show(
-                    $"Id : {found.Id}" +
-                    $"\nUserName : {found.Username}" +
-                    $"\nPassword : {found.PasswordHash}");
+                Session.User = found;
+                //MessageBox.Show("User found");
+                //MessageBox.Show(
+                //    $"Id : {found.Id}" +
+                //    $"\nUserName : {found.Username}" +
+                //    $"\nPassword : {found.PasswordHash}");
+                RequestMainView.Execute(null);
             }
             else
             {
-                MessageBox.Show("User not found" +
-                    $"\nUsername : {UserName}" +
-                    $"\nPassword : {Password}");
+                MessageBox.Show($"User not found : {UserName}");
             }
         }
 
+        public override void OnShowView()
+        {
+            base.OnShowView();
+            //MainWindowVM.OnRequestChangeBackground?.Invoke(new SolidColorBrush(Color.FromArgb(35, 0, 0, 0)));
+        }
+        public override void OnHideView()
+        {
+            base.OnHideView();
+            if (Session.User != null) MainWindowVM.OnRequestMessage?.Invoke($"User {Session.User.Username} logged-in Successfully");
+        }
     }
 }

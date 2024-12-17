@@ -25,17 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Ressources\Images\*" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Ressources\Images\**\*.*" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Ressources\Images\**\*.*">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+	  <Resource Include="Ressources\Images\**\*.*" />
   </ItemGroup>
 
   <ItemGroup>
@@ -53,5 +43,13 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="MVVM\View\SpellListView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 </Project>

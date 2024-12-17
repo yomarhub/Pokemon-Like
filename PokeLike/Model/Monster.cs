@@ -1,10 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace PokeLike.Model;
+﻿namespace PokeLike.Model;
 
 public partial class Monster
 {
+    public Monster() { }
+    public Monster(Monster m)
+    {
+        Id = m.Id;
+        Name = m.Name;
+        Health = m.Health;
+        ImageUrl = m.ImageUrl;
+        Players = m.Players;
+        Spells = m.Spells;
+    }
     public int Id { get; set; }
 
     public string Name { get; set; } = null!;
@@ -13,7 +20,7 @@ public partial class Monster
 
     public string? ImageUrl { get; set; }
 
-    public virtual ICollection<Player> Players { get; set; } = new List<Player>();
+    public virtual ICollection<Player> Players { get; set; } = [];
 
-    public virtual ICollection<Spell> Spells { get; set; } = new List<Spell>();
+    public virtual ICollection<Spell> Spells { get; set; } = [];
 }

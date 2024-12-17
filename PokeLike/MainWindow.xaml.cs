@@ -8,12 +8,12 @@ namespace PokeLike
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly MainWindowVM _mainWindowVM;
+        public MainWindowVM MainWindowVM { get; private set; }
         public MainWindow()
         {
             InitializeComponent();
-            _mainWindowVM = new MainWindowVM();
-            DataContext = _mainWindowVM;
+            MainWindowVM = new MainWindowVM();
+            DataContext = MainWindowVM;
         }
     }
 }

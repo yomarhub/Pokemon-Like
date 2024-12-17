@@ -26,7 +26,8 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <Viewbox Margin="214,42,212,71" Stretch="Uniform">
+    <!--  Viewbox Margin="214,42,212,71" Stretch="Uniform"  -->
+    <Viewbox Stretch="Uniform">
         <Grid Width="675" Height="450">
             <Grid.RowDefinitions>
                 <RowDefinition Height="7*" />

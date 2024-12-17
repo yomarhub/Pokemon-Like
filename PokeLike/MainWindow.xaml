@@ -3,16 +3,18 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:PokeLike"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:PokeLike.MVVM.ViewModel"
         Title="PokeLike"
-        MinWidth="800"
-        MinHeight="450"
+        Width="800"
+        Height="450"
         d:DataContext="{d:DesignInstance Type=vm:MainWindowVM}"
         Style="{StaticResource MaterialDesignWindow}"
         mc:Ignorable="d">
 
-    <Grid Background="{Binding BackgroundImage}">
+    <Grid Background="{Binding Background}">
         <ContentControl Content="{Binding CurrentVM}" />
+        <materialDesign:Snackbar MessageQueue="{Binding MessageQueue}" />
     </Grid>
 </Window>

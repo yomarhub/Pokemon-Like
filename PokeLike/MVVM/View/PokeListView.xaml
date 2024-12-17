@@ -4,28 +4,185 @@
              xmlns:VM="clr-namespace:PokeLike.MVVM.ViewModel"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:PokeLike.MVVM.View"
+             xmlns:m="clr-namespace:PokeLike.Model"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
              d:DataContext="{d:DesignInstance Type=VM:PokeListViewVM}"
              d:DesignHeight="450"
              d:DesignWidth="800"
              mc:Ignorable="d">
     <UserControl.Resources>
-        <DataTemplate x:Key="PokeList">
-            <StackPanel Orientation="Horizontal">
-                <Image Width="100" Height="100" Source="{Binding Sprite}" />
-                <TextBlock VerticalAlignment="Center" FontSize="24" Text="{Binding Name}" />
-            </StackPanel>
-        </DataTemplate>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Ressources/dictionaries/ListViewTemplates.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            <DataTemplate x:Key="Players" DataType="{x:Type m:Player}">
+                <TextBlock Text="{Binding Name}" />
+            </DataTemplate>
+            <md:DialogHost x:Key="Dialog" DialogContent="{Binding NewPlayer}" />
+        </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid>
-        <ListBox Width="400"
+    <Grid Background="#3F000000">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*" />
+            <ColumnDefinition Width="5*" />
+        </Grid.ColumnDefinitions>
+        <Grid MinWidth="220">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="3*" />
+            </Grid.RowDefinitions>
+            <UserControl Margin="25"
+                         Background="#3FFFFFFF"
+                         Content="{Binding PlayersMonster}"
+                         ContentTemplate="{StaticResource PokeView}" />
+            <md:DialogHost Identifier="RootDialog" Grid.Row="1">
+                <Grid>
+                    <ListBox Grid.Row="1"
+                             Margin="25"
+                             Background="#3FFFFFFF"
+                             ItemTemplate="{StaticResource Players}"
+                             ItemsSource="{Binding Players}"
+                             SelectedItem="{Binding SelectedPlayer}" />
+
+                    <Button Grid.Row="1"
+                            Margin="0,0,30,30"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Command="{Binding OpenDialogCommand}"
+                            Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
+                            ToolTip="Create Player">
+                        <md:PackIcon Width="30" Height="30" Kind="Plus" />
+                    </Button>
+                    <Button Grid.Row="1"
+                            Margin="0,0,85,30"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Command="{Binding DeletePlayerCommand}"
+                            Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
+                            ToolTip="Delete Player">
+                        <md:PackIcon Width="30" Height="30" Kind="Minus" />
+                    </Button>
+                </Grid>
+            </md:DialogHost>
+            <!-->
+            <ListBox Grid.Row="1"
+                     Margin="25"
+                     Background="#3FFFFFFF"
+                     ItemTemplate="{StaticResource Players}"
+                     ItemsSource="{Binding Players}"
+                     SelectedItem="{Binding SelectedPlayer}" />
+                <Button Grid.Row="1"
+                    Margin="0,0,30,30"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Command="{Binding OpenDialogCommand}"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
+                    ToolTip="Create Player">
+                    <md:PackIcon Width="30" Height="30" Kind="Plus" />
+                </Button>
+                <Button Grid.Row="1"
+                    Margin="0,0,85,30"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Command="{Binding DeletePlayerCommand}"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
+                    ToolTip="Delete Player">
+                    <md:PackIcon Width="30" Height="30" Kind="Minus" />
+                </Button>
+            </!-->
+        </Grid>
+        <ListBox Grid.Column="1"
+                 Width="400"
                  Height="400"
                  HorizontalAlignment="Center"
                  VerticalAlignment="Center"
+                 Background="#3FFFFFFF"
                  ItemTemplate="{StaticResource PokeList}"
                  ItemsSource="{Binding Pokemons}"
                  SelectedItem="{Binding SelectedPokemon}" />
+        <!--#region TreeListView-->
+        <!--Grid Grid.Column="0">
+            <materialDesign:TreeListView MinWidth="220"
+                                         MaxHeight="450"
+                                         ItemsSource="{Binding Pokemons}"
+                                         SelectedItem="{Binding SelectedTreeItem}">
+                <materialDesign:TreeListView.Resources>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Items, Mode=OneTime}">
+                        <TextBlock Margin="3,2" Text="{Binding Name, Mode=OneTime}" />
+                    </HierarchicalDataTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Movies, Mode=OneTime}">
+                        <TextBlock Margin="3,2" Text="{Binding Name, Mode=OneTime}" />
+                    </HierarchicalDataTemplate>
+                    <DataTemplate>
+                        <TextBlock Margin="3,2" Text="{Binding Name, Mode=OneTime}" ToolTip="{Binding Director, Mode=OneTime}" />
+                    </DataTemplate>
+                </materialDesign:TreeListView.Resources>
+            </materialDesign:TreeListView>
+            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal">
+                <Button Command="{Binding AddListTreeItemCommand}" Content="{materialDesign:PackIcon Kind=Add}" ToolTip="Add an item" />
+                <Button Command="{Binding RemoveListTreeItemCommand}" Content="{materialDesign:PackIcon Kind=Remove}" ToolTip="Remove selected item(s)" />
+            </StackPanel>
+        </Grid-->
+        <!--#endregion-->
 
+        <Button Grid.Column="1"
+                Width="60"
+                Height="60"
+                Margin="0,0,110,35"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Command="{Binding RequestMainView}"
+                Style="{StaticResource MaterialDesignFloatingActionSecondaryLightButton}"
+                ToolTip="Change Pokemon">
+            <md:PackIcon Width="30" Height="30" Kind="ArrowLeft" />
+        </Button>
+
+        <Button Grid.Column="1"
+                Width="60"
+                Height="60"
+                Margin="0,0,35,35"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Command="{Binding ChangeMonster}"
+                Style="{StaticResource MaterialDesignFloatingActionSecondaryLightButton}"
+                ToolTip="Change Pokemon"
+                Visibility="{Binding CanPlay, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <md:PackIcon Width="30" Height="30" Kind="Sync" />
+        </Button>
+
+        <!--Button Grid.Column="1"
+                Width="56"
+                Height="56"
+                Margin="0,0,50,50"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Command="{Binding AddMonster}"
+                Style="{StaticResource MaterialDesignFloatingActionSecondaryLightButton}"
+                Visibility="{Binding CanPlay, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <materialDesign:PackIcon Width="25" Height="25" Kind="AccountPlus" />
+        </Button>
+
+        <Button Grid.Column="1"
+                Width="56"
+                Height="56"
+                Margin="0,0,120,50"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Command="{Binding RemoveMonster}"
+                Style="{StaticResource MaterialDesignFloatingActionSecondaryLightButton}"
+                Visibility="{Binding CanPlay, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <materialDesign:PackIcon Width="25" Height="25" Kind="AccountMinus" />
+        </Button-->
+        <!--Button Grid.Column="1"
+                Margin="50,50,190,50"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Command="{Binding RemoveMonster}"
+                Style="{StaticResource MaterialDesignFloatingActionSecondaryLightButton}">
+            <materialDesign:PackIcon Width="25" Height="25" Kind="AccountMultipleMinus" />
+        </Button-->
     </Grid>
 </UserControl>
