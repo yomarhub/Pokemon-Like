@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using MaterialDesignThemes.Wpf;
@@ -11,28 +12,34 @@ namespace PokeLike.MVVM.ViewModel
     internal partial class PokeListViewVM : BaseVM
     {
         #region Variables
-        private ObservableCollection<Monster>? pokemons;
-        public ObservableCollection<Monster> Pokemons
+        private ObservableCollection<Monster>? monsters;
+        public ObservableCollection<Monster> Monsters
         {
-            get => pokemons ??= []; set
+            get => monsters ??= []; set
             {
-                if (SetProperty(ref pokemons, value))
+                if (SetProperty(ref monsters, value))
                 {
-                    OnPropertyChanged(nameof(Pokemons));
+                    OnPropertyChanged(nameof(Monsters));
                 }
             }
         }
 
-        private Monster? selectedPokemon;
-        public Monster? SelectedPokemon
+        private Monster? selectedMonster;
+        public Monster? SelectedMonster
         {
-            get => selectedPokemon; set
+            get => selectedMonster; set
             {
-                if (SetProperty(ref selectedPokemon, value))
+                if (SetProperty(ref selectedMonster, value))
                 {
-                    OnPropertyChanged(nameof(SelectedPokemon));
+                    OnPropertyChanged(nameof(SelectedMonster));
                 }
             }
+        }
+        public static Visibility CanStartGame
+        {
+            get => (Session.User != null
+                && Session.CurrentPlayer != null
+                && Session.CurrentMonster != null) ? Visibility.Visible : Visibility.Collapsed;
         }
         private Player? selectedPlayer;
         public Player? SelectedPlayer
@@ -43,6 +50,8 @@ namespace PokeLike.MVVM.ViewModel
                 {
                     OnPropertyChanged(nameof(SelectedPlayer));
                     OnPropertyChanged(nameof(PlayersMonster));
+                    OnPropertyChanged(nameof(CanStartGame));
+                    Session.Show();
                 }
             }
         }
@@ -57,16 +66,22 @@ namespace PokeLike.MVVM.ViewModel
             }
         }
 
+        private Monster _defaultMonster = new() { Name = "No Monster Selected", Spells = new Spell[4] };
         public Monster? PlayersMonster
         {
-            get => SelectedPlayer?.Monsters.FirstOrDefault() ?? new() { Name = "No Monster Selected", Spells = new Spell[4] }; set
+            get => SelectedPlayer?.Monsters.FirstOrDefault() ?? _defaultMonster;
+            set
             {
+                Session.CurrentMonster = value;
                 OnPropertyChanged(nameof(PlayersMonster));
+                OnPropertyChanged(nameof(CanStartGame));
+                Session.Show();
             }
         }
 
         private RelayCommand? changeMonster;
         public ICommand ChangeMonster => changeMonster ??= new RelayCommand(HandleChangeMonster);
+
         #endregion
         public PokeListViewVM() : base()
         {
@@ -74,13 +89,14 @@ namespace PokeLike.MVVM.ViewModel
             //selectedPokemon = Pokemons.First();
             _ = LoadMonsters();
             LoadPlayers();
-            selectedPlayer = Players.FirstOrDefault();
+            SelectedPlayer = Players.FirstOrDefault();
 
             async Task LoadMonsters() => await Task.Run(() =>
             {
                 using ExerciceMonsterContext tmpcontext = new();
-                Pokemons = new(tmpcontext.Monsters.Include(m => m.Spells));
-                selectedPokemon = Pokemons.First();
+                Monsters = new(tmpcontext.Monsters.Include(m => m.Spells));
+                SelectedMonster = Monsters.First();
+                MessageBox.Show($"{string.Join(", ", SelectedMonster.Spells.Select(s => s.Name))} spells loaded");
                 MainWindowVM.OnRequestMessage?.Invoke("Monsters loaded");
             });
             //MessageBox.Show(String.Join("\n", selectedPokemon.Spells.Select(s => s.Name)) +
@@ -89,13 +105,23 @@ namespace PokeLike.MVVM.ViewModel
 
         private void HandleChangeMonster()
         {
-            if (SelectedPokemon == null) return;
-            Player p = _context.Players.First(p => p == selectedPlayer);
+            if (SelectedMonster is null || SelectedPlayer is null) return;
+            Player p = _context.Players.Include(p => p.Monsters).First(p => p.Id == SelectedPlayer.Id);
             p.Monsters.Clear();
-            p.Monsters.Add(SelectedPokemon);
+            p.Monsters.Add(_context.Monsters.First(m => m.Id == SelectedMonster.Id));
             _context.SaveChanges();
-            PlayersMonster = null;
+            PlayersMonster = p.Monsters.First();
         }
+        /*
+        private void HandleChangeMonster()
+        {
+            if (SelectedMonster is null || SelectedPlayer is null) return;
+            Player p = _context.Players.Include(p => p.Monsters).First(p => p.Id == SelectedPlayer.Id);
+            p.Monsters.Clear();
+            p.Monsters.Add(_context.Monsters.First(m => m.Id == SelectedMonster.Id));
+            _context.SaveChanges();
+            PlayersMonster = selectedMonster;
+        }*/
 
         private ObservableCollection<Player> LoadPlayers(ExerciceMonsterContext? _context = null)
         {
@@ -103,29 +129,19 @@ namespace PokeLike.MVVM.ViewModel
             Players = new(_context.Players.Include(p => p.Monsters).Where(p => Session.User == null || p.LoginId == Session.User!.Id));
             return Players;
         }
-        #region addremove Monster
-        /*
-        private RelayCommand? addMonster;
-        public ICommand AddMonster => addMonster ??= new RelayCommand(HandleAddMonster);
 
-        private RelayCommand? removeMonster;
-        public ICommand RemoveMonster => removeMonster ??= new RelayCommand(HandleRemoveMonster);
-        private void HandleAddMonster()
+        public override void OnHideView()
         {
-            Player p = _context.Players.First(p => p.Login == Session.User);
-            p.Monsters.Add(selectedPokemon);
-            _context.SaveChanges();
-            PlayersMonster = null;
+            base.OnHideView();
+            if (Session.User != null && SelectedPlayer != null)
+            {
+                Player p = _context.Players.Include(p => p.Monsters).First(p => p == SelectedPlayer);
+                if (p.Monsters.Count == 0) { MainWindowVM.OnRequestMessage?.Invoke("Current player doesn't have a Monster"); return; }
+                Session.CurrentPlayer = p;
+                Session.CurrentMonster = p.Monsters.First();
+            }
         }
-        private void HandleRemoveMonster()
-        {
-            Player p = _context.Players.First(p => p.Login == Session.User);
-            bool r = p.Monsters.Remove(selectedPokemon);
-            //MessageBox.Show(r ? "Monster removed" : "Monster not removed");
-            _context.SaveChanges();
-            PlayersMonster = null;
-        } */
-        #endregion
+
         #region Dialog
 
         [RelayCommand]
@@ -154,8 +170,8 @@ namespace PokeLike.MVVM.ViewModel
         private void DeletePlayer()
         {
             if (selectedPlayer == null) return;
-            Player p = _context.Players.First(p => p == selectedPlayer);
-            //Players.Remove(p);
+            Player p = _context.Players.Include(p => p.Monsters).First(p => p == selectedPlayer);
+            p.Monsters.Clear();
             _context.Players.Remove(p);
             _context.SaveChanges();
             LoadPlayers();

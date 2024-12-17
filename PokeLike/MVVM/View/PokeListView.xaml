@@ -74,8 +74,8 @@
                      Margin="15,0,0,0"
                      Background="#3FFFFFFF"
                      ItemTemplate="{StaticResource PokeList}"
-                     ItemsSource="{Binding Pokemons}"
-                     SelectedItem="{Binding SelectedPokemon}" />
+                     ItemsSource="{Binding Monsters}"
+                     SelectedItem="{Binding SelectedMonster}" />
             <Button Grid.Column="1"
                     Width="60"
                     Height="60"
@@ -89,6 +89,18 @@
             </Button>
 
             <Button Grid.Column="1"
+                    Margin="30,0,0,15"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    Background="YellowGreen"
+                    Command="{Binding RequestView}"
+                    CommandParameter="{x:Type VM:GameViewVM}"
+                    Content="Start Game"
+                    Foreground="Blue"
+                    ToolTip="Change Pokemon"
+                    Visibility="{Binding CanStartGame, Mode=OneWay}" />
+
+            <Button Grid.Column="1"
                     Width="60"
                     Height="60"
                     Margin="0,0,35,35"
@@ -97,7 +109,7 @@
                     Command="{Binding ChangeMonster}"
                     Style="{StaticResource MaterialDesignFloatingActionSecondaryLightButton}"
                     ToolTip="Change Pokemon"
-                    Visibility="{Binding CanPlay, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    Visibility="{Binding CanPlay, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <md:PackIcon Width="30" Height="30" Kind="Sync" />
             </Button>
         </Grid>
