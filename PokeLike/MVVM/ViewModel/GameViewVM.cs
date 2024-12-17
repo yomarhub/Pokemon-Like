@@ -81,7 +81,7 @@ namespace PokeLike.MVVM.ViewModel
         {
             base.OnShowView();
             //ChangeWindowSize(new(745, 450));
-            Application.Current.MainWindow.Width = 675;
+            //Application.Current.MainWindow.Width = 675;
             //ImageBrush img = new(new BitmapImage(new("pack://application:,,,/Ressources/Images/backgrounds/nintendodsCleared.png"))) { Stretch = Stretch.Uniform };
             //MainWindowVM.OnRequestChangeBackground?.Invoke((ImageBrush)Application.Current.FindResource("Nintendo"));
             MainWindowVM.OnRequestChangeBackground?.Invoke(new SolidColorBrush(Colors.White));

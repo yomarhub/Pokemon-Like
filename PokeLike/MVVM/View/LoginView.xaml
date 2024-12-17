@@ -7,8 +7,8 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              d:DataContext="{d:DesignInstance Type=VM:LoginViewVM}"
-             d:DesignHeight="450"
-             d:DesignWidth="800"
+             Height="450"
+             Width="800"
              mc:Ignorable="d">
 
     <Grid Margin="50">

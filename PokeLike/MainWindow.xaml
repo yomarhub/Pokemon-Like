@@ -7,13 +7,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:PokeLike.MVVM.ViewModel"
         Title="PokeLike"
-        Width="800"
-        Height="450"
         d:DataContext="{d:DesignInstance Type=vm:MainWindowVM}"
+        ResizeMode="CanMinimize"
+        SizeToContent="WidthAndHeight"
         Style="{StaticResource MaterialDesignWindow}"
         mc:Ignorable="d">
-
     <Grid Background="{Binding Background}">
+        <!-- Width="800" Height="450" -->
         <ContentControl Content="{Binding CurrentVM}" />
         <materialDesign:Snackbar MessageQueue="{Binding MessageQueue}" />
     </Grid>

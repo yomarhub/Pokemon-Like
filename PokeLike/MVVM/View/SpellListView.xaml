@@ -8,19 +8,41 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
              d:DataContext="{d:DesignInstance Type=VM:SpellListViewVM}"
-             d:DesignHeight="450"
-             d:DesignWidth="800"
+             Height="450"
+             Width="800"
+             Background="White"
              mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Ressources/dictionaries/ListViewTemplates.xaml" />
+                <ResourceDictionary Source="/Ressources/dictionaries/TreeViewTemplates.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
             <DataTemplate x:Key="Players" DataType="{x:Type m:Player}">
                 <TextBlock Text="{Binding Name}" />
             </DataTemplate>
             <md:DialogHost x:Key="Dialog" DialogContent="{Binding NewPlayer}" />
+            <DataTemplate x:Key="TreeViewSpells">
+                <md:TreeListView Grid.Column="1"
+                                 MinWidth="220"
+                                 MaxHeight="450"
+                                 Background="LightBlue"
+                                 ItemsSource="{Binding Spells}"
+                                 SelectedItem="{Binding SelectedSpell}">
+                    <md:TreeListView.Resources>
+                        <HierarchicalDataTemplate DataType="{x:Type m:Spell}" ItemsSource="{Binding Monsters, Mode=OneTime}">
+                            <TextBlock Margin="3,2" Text="{Binding Name, Mode=OneTime}" />
+                        </HierarchicalDataTemplate>
+
+                        <DataTemplate DataType="{x:Type m:Monster}">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="50" VerticalAlignment="Center" Source="{Binding ImageUrl, TargetNullValue={x:Null}}" />
+                                <TextBlock Margin="3,2" Text="{Binding Name, Mode=OneTime}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </md:TreeListView.Resources>
+                </md:TreeListView>
+            </DataTemplate>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -29,29 +51,103 @@
             <ColumnDefinition Width="4*" />
             <ColumnDefinition Width="5*" />
         </Grid.ColumnDefinitions>
-        <UserControl Margin="25"
-                     Background="#3FFFFFFF"
-                     Content="{Binding SelectedSpell}"
-                     ContentTemplate="{StaticResource PokeView}" />
-        <md:TreeListView Grid.Column="1"
+        <!--#region Flipper-->
+        <md:Flipper md:ElevationAssist.Elevation="Dp0">
+            <md:Flipper.FrontContent>
+                <Viewbox Stretch="Uniform">
+                    <Grid Width="200" Height="256">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="160" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <md:ColorZone VerticalAlignment="Stretch" Mode="PrimaryLight">
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="24"
+                                       Text="{Binding SelectedSpell.Name}"
+                                       TextWrapping="Wrap" />
+                        </md:ColorZone>
+                        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock HorizontalAlignment="Center" Text="{Binding SelectedSpell.Damage, StringFormat='Damage : {0}'}" />
+                            <Button Margin="0,4,0,0"
+                                    Command="{x:Static md:Flipper.FlipCommand}"
+                                    Content="Show Description"
+                                    Style="{StaticResource MaterialDesignFlatButton}" />
+                        </StackPanel>
+                    </Grid>
+                </Viewbox>
+            </md:Flipper.FrontContent>
+            <md:Flipper.BackContent>
+                <Viewbox Stretch="Uniform">
+                    <Grid Width="200" Height="256">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <md:ColorZone Padding="6" Mode="SecondaryMid">
+                            <StackPanel Orientation="Horizontal">
+                                <Button HorizontalAlignment="Left" Command="{x:Static md:Flipper.FlipCommand}" Style="{StaticResource MaterialDesignToolForegroundButton}">
+                                    <md:PackIcon HorizontalAlignment="Right" Kind="ArrowLeft" />
+                                </Button>
+                                <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Text="SPELL DESCRIPTION" />
+                            </StackPanel>
+                        </md:ColorZone>
+                        <TextBlock Grid.Row="1"
+                                   VerticalAlignment="Center"
+                                   FontSize="18"
+                                   Text="{Binding SelectedSpell.Description}"
+                                   TextWrapping="Wrap" />
+                    </Grid>
+                </Viewbox>
+            </md:Flipper.BackContent>
+        </md:Flipper>
+        <!-->
+            <UserControl Margin="25"
+                         Background="#3FFFFFFF"
+                         Content="{Binding SelectedSpell}"
+                         ContentTemplate="{StaticResource SpellCard}" />
+            <md:Flipper Margin="25" IsFlippedChanged="Flipper_OnIsFlippedChanged">
+                <md:Flipper.FrontContent>
+                    <Button Width="184"
+                        Margin="8"
+                        Command="{x:Static md:Flipper.FlipCommand}"
+                        Content="FLIPPABLZ!"
+                        Style="{StaticResource MaterialDesignFlatButton}" />
+                </md:Flipper.FrontContent>
+                <md:Flipper.BackContent>
+                    <Button Width="184"
+                        Margin="8"
+                        Command="{x:Static md:Flipper.FlipCommand}"
+                        Content="GO BACK"
+                        Style="{StaticResource MaterialDesignFlatButton}" />
+                </md:Flipper.BackContent>
+            </md:Flipper>
+        </!-->
+        <!--#endregion-->
+        <!--#region TreeView-->
+        <ContentControl Grid.Column="1" Content="{Binding}" ContentTemplate="{StaticResource TreeViewSpells}" />
+        <!-->
+            <md:TreeListView Grid.Column="1"
                          MinWidth="220"
                          MaxHeight="450"
                          Background="LightBlue"
                          ItemsSource="{Binding Spells}"
                          SelectedItem="{Binding SelectedSpell}">
-            <md:TreeListView.Resources>
-                <HierarchicalDataTemplate DataType="{x:Type m:Spell}" ItemsSource="{Binding Monsters, Mode=OneTime}">
-                    <TextBlock Margin="3,2" Text="{Binding Name, Mode=OneTime}" />
-                </HierarchicalDataTemplate>
-
-                <DataTemplate DataType="{x:Type m:Monster}">
-                    <StackPanel Orientation="Horizontal">
-                        <Image Width="50" VerticalAlignment="Center" Source="{Binding ImageUrl, TargetNullValue={x:Null}}" />
+                <md:TreeListView.Resources>
+                    <HierarchicalDataTemplate DataType="{x:Type m:Spell}" ItemsSource="{Binding Monsters, Mode=OneTime}">
                         <TextBlock Margin="3,2" Text="{Binding Name, Mode=OneTime}" />
-                    </StackPanel>
-                </DataTemplate>
-            </md:TreeListView.Resources>
-        </md:TreeListView>
+                    </HierarchicalDataTemplate>
+
+                    <DataTemplate DataType="{x:Type m:Monster}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Width="50" VerticalAlignment="Center" Source="{Binding ImageUrl, TargetNullValue={x:Null}}" />
+                            <TextBlock Margin="3,2" Text="{Binding Name, Mode=OneTime}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </md:TreeListView.Resources>
+            </md:TreeListView>
+        </!-->
+        <!--#endregion-->
 
         <Button Grid.Column="1"
                 Width="60"
