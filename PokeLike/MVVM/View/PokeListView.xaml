@@ -18,7 +18,7 @@
             </ResourceDictionary.MergedDictionaries>
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
             <DataTemplate x:Key="Players" DataType="{x:Type m:Player}">
-                <TextBlock Text="{Binding Name}" FontWeight="ExtraBold" FontSize="18" />
+                <TextBlock FontSize="18" FontWeight="ExtraBold" Text="{Binding Name}" />
             </DataTemplate>
         </ResourceDictionary>
     </UserControl.Resources>

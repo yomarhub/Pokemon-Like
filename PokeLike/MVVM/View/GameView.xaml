@@ -33,7 +33,8 @@
                 <RowDefinition Height="7*" />
                 <RowDefinition Height="3*" />
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Background="{Binding CurrentBack}" />
+            <!--  Grid Grid.Row="0" Background="{Binding CurrentBack}" /  -->
+            <Grid Grid.Row="0" Background="{StaticResource b00}" />
             <!--Grid>
                 <Image
                     Grid.Row="1"
@@ -48,43 +49,50 @@
                     Source="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/8.png"
                     Style="{StaticResource pokemon}" Margin="10,0,1,129" Grid.RowSpan="2" Grid.Column="1" />
             </Grid-->
-            <Border Grid.Row="1" Background="{StaticResource Choice}">
-                <Grid Width="675" Height="135" VerticalAlignment="Bottom">
+            <Border Grid.Row="1"
+                    Padding="25"
+                    Background="{StaticResource TextBar}"
+                    Visibility="{Binding IsWriting, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <Border Grid.Row="1"
+                    Padding="25"
+                    Background="{StaticResource TextBar}"
+                    Visibility="{Binding IsFighting, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
                         <ColumnDefinition />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition />
-                        <!--  RowDefinition Height="0.125*" /  -->
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    <Label Grid.Column="2"
-                           Width="56"
-                           Height="34"
-                           Margin="0,0,73,10"
-                           HorizontalAlignment="Right"
-                           VerticalAlignment="Bottom"
-                           Content="00"
-                           FontFamily="{StaticResource PokeFont}"
-                           FontSize="24" />
-                    <Label Grid.Row="1"
-                           Grid.Column="2"
-                           Margin="90,10,0,0"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Top"
-                           Content="00"
-                           FontFamily="{StaticResource PokeFont}"
-                           FontSize="24" />
-                    <Button Grid.RowSpan="2"
-                            Grid.ColumnSpan="2"
-                            Margin="50"
-                            Command="{Binding RequestMainView}"
-                            Content="Go Back"
-                            IsDefault="True" />
+                    <!-->
+                            <Label Grid.Column="2"
+                                   Width="56"
+                                   Height="34"
+                                   Margin="0,0,73,10"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Bottom"
+                                   Content="00"
+                                   FontFamily="{StaticResource PokeFont}"
+                                   FontSize="24" />
+                            <Label Grid.Row="1"
+                                   Grid.Column="2"
+                                   Margin="90,10,0,0"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Top"
+                                   Content="00"
+                                   FontFamily="{StaticResource PokeFont}"
+                                   FontSize="24" />
+                            <Button Grid.RowSpan="2"
+                                Grid.ColumnSpan="2"
+                                Margin="50"
+                                Command="{Binding RequestMainView}"
+                                Content="Go Back"
+                                IsDefault="True" />
+                        </!-->
                     <!--Border Background="{StaticResource Nintendo}" />
-                    <DataGrid Grid.RowSpan="2" Grid.ColumnSpan="2" ItemTemplate="{StaticResource Spell}" /-->
+                        <DataGrid Grid.RowSpan="2" Grid.ColumnSpan="2" ItemTemplate="{StaticResource Spell}" /-->
                 </Grid>
             </Border>
         </Grid>
