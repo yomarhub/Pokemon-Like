@@ -29,8 +29,8 @@ namespace PokeLike.MVVM.ViewModel
         private bool isWriting = false;
         public bool IsWriting { get => isWriting; set { SetProperty(ref isWriting, value); OnPropertyChanged(nameof(IsWriting)); } }
 
-        private bool canFighting = false;
-        public bool CanFighting { get => canFighting; set { SetProperty(ref canFighting, value); OnPropertyChanged(nameof(CanFighting)); } }
+        private bool canFight = true;
+        public bool CanFight { get => canFight; set { SetProperty(ref canFight, value); OnPropertyChanged(nameof(CanFight)); } }
 
         private ObservableCollection<Monster> AllMonsters;
         private BattleMonster ally;
@@ -63,12 +63,11 @@ namespace PokeLike.MVVM.ViewModel
         }
         public void AttackEnnemy(Spell s)
         {
-            if (CanFighting) { MessageBox.Show("Can't fight"); return; }
-            CanFighting = true;
-            MessageBox.Show($"AttackEnnemy : {s.Name}");
+            if (!CanFight) return;
+            CanFight = false;
+            Task.Run(() => MessageBox.Show($"AttackEnnemy : {s.Name}"));
             s.Attack(Ennemy);
             OnPropertyChanged(nameof(EnnemyHP));
-            CanFighting = false;
         }
         private readonly Random rand = new();
         public void GetNewEnnemy()
@@ -78,27 +77,25 @@ namespace PokeLike.MVVM.ViewModel
             OnPropertyChanged(nameof(EnnemyHP));
         }
 
-        private int nbr = 0;
-        public async void HandleOnDamage(int health)
-        {
-            nbr++;
-            MessageBox.Show($"HandleOnDamage : {nbr}");
-
-            if (health <= 0)
+        public async void HandleOnDamage(int health) => await Task.Run(() =>
             {
-                Ennemy.OnDamage -= HandleOnDamage;
-                OnPropertyChanged(nameof(EnnemyHP));
-                MessageBox.Show("Ennemy is dead");
-                //await Task.Delay(2000);
-                GetNewEnnemy();
-                MessageBox.Show($"New Ennemi : {Ennemy.Name}");
-                return;
-            }
-            else
-            {
-                MessageBox.Show($"EnnemyHP : {EnnemyHP}, {Ennemy.CurrentHP}");
-            }
-        }
+                if (health <= 0)
+                {
+                    Ennemy.OnDamage -= HandleOnDamage;
+                    OnPropertyChanged(nameof(EnnemyHP));
+                    MessageBox.Show("Ennemy is dead");
+                    Session.CurrentScore++;
+                    Task.Delay(2000);
+                    GetNewEnnemy();
+                    MessageBox.Show($"New Ennemi : {Ennemy.Name}");
+                }
+                else
+                {
+                    MessageBox.Show($"EnnemyHP : {EnnemyHP}, {Ennemy.CurrentHP}, {Ennemy.Spells.Count}");
+                    Ennemy.Spells.ElementAt(rand.Next(Ennemy.Spells.Count)).Attack(Ally, true);
+                }
+                CanFight = true;
+            });
         private void ChangeBack()
         {
             if (_backgrounds.Count < 1) return;

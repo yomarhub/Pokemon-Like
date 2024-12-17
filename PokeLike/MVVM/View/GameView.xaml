@@ -81,11 +81,11 @@
             <Border Grid.Row="1"
                     Padding="25"
                     Background="{StaticResource TextBar}"
-                    Visibility="{Binding IsWriting, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    Visibility="{Binding CanFighting, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Border Grid.Row="1"
                     Padding="25"
                     Background="{StaticResource TextBar}"
-                    Visibility="{Binding IsFighting, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    Visibility="{Binding CanFighting, Converter={StaticResource InvertBooleanConverter}}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
