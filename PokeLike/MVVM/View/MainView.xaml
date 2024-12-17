@@ -98,14 +98,18 @@
                     CommandParameter="{x:Type VM:SpellListViewVM}"
                     Content="List Spells"
                     FontFamily="{StaticResource PokeFont}" />
-            <StackPanel Margin="10" HorizontalAlignment="Center" Orientation="Horizontal">
-                <TextBlock Text="Animations" />
-                <ToggleButton Margin="5,0"
+            <!--#region Toggle -->
+            <!-->
+                <StackPanel Margin="10" HorizontalAlignment="Center" Orientation="Horizontal">
+                    <TextBlock Text="Animations" />
+                    <ToggleButton Margin="5,0"
                               IsChecked="{Binding SpellAnim}"
                               Style="{StaticResource MaterialDesignSwitchToggleButton}"
                               ToolTip="Quality Switch" />
-                <TextBlock Text="Perforance" />
-            </StackPanel>
+                    <TextBlock Text="Perforance" />
+                </StackPanel>
+            </!-->
+            <!--#endregion-->
         </StackPanel>
     </Grid>
 </UserControl>
