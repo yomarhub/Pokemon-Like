@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Media;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
 using PokeLike.Functions;
 using PokeLike.Model;
@@ -10,7 +11,7 @@ namespace PokeLike.MVVM.ViewModel
     public class GameViewVM : BaseVM
     {
         #region Variables
-        public static Action<Spell> Attack { get; set; }
+        public static RelayCommand<Spell>? Attack { get; set; }
         private readonly Dictionary<ImageBrush, string> _backgrounds = [];
         private ImageBrush? currentBack;
         public ImageBrush? CurrentBack
@@ -28,8 +29,8 @@ namespace PokeLike.MVVM.ViewModel
         private bool isWriting = false;
         public bool IsWriting { get => isWriting; set { SetProperty(ref isWriting, value); OnPropertyChanged(nameof(IsWriting)); } }
 
-        private bool isFighting = true;
-        public bool IsFighting { get => isFighting; set { SetProperty(ref isFighting, value); OnPropertyChanged(nameof(IsFighting)); } }
+        private bool canFighting = false;
+        public bool CanFighting { get => canFighting; set { SetProperty(ref canFighting, value); OnPropertyChanged(nameof(CanFighting)); } }
 
         private ObservableCollection<Monster> AllMonsters;
         private BattleMonster ally;
@@ -37,6 +38,8 @@ namespace PokeLike.MVVM.ViewModel
 
         private BattleMonster ennemy;
         public BattleMonster Ennemy { get => ennemy; set { SetProperty(ref ennemy, value); OnPropertyChanged(nameof(Ennemy)); } }
+        public double AllyHP { get => (double)Ally.CurrentHP / (double)Ally.Health * 100.0; set { } }
+        public double EnnemyHP { get => (double)Ennemy.CurrentHP / (double)Ennemy.Health * 100.0; set { } }
         #endregion
         public GameViewVM() : base()
         {
@@ -46,27 +49,54 @@ namespace PokeLike.MVVM.ViewModel
                     _backgrounds?.Add(found, b);
                 });
             ChangeBack();
-            Attack = AttackEnnemy;
+            Attack = new(AttackEnnemy!);
             AllMonsters = new(_context.Monsters.Include(m => m.Spells));
-            if (Session.User != null && Session.CurrentMonster != null) Ally = new(Session.CurrentMonster);
-            else Ally = new(AllMonsters.First()) { Name = "No pokemon has been choosen" };
+            ally = new(Session.CurrentMonster!);
+            ennemy = new(AllMonsters.ElementAt(rand.Next(AllMonsters.Count))) { OnDamage = HandleOnDamage };
+            MessageBox.Show($"allyHP : {AllyHP}" +
+                $"\nennemyHP : {EnnemyHP}" +
+                $"\nAllyPercent : {Ally.CurrentHP / Ally.Health * 100.0}" +
+                $"\nEnnemyPercent : {Ennemy.CurrentHP / Ennemy.Health * 100.0}" +
+                $"\nAlly.CurrentHP : {Ally.CurrentHP}" +
+                $"\n(double)Ennemy.CurrentHP : {(double)Ennemy.CurrentHP}" +
+                $"\nAlly.Health : {Ally.Health}");
         }
         public void AttackEnnemy(Spell s)
         {
+            if (CanFighting) { MessageBox.Show("Can't fight"); return; }
+            CanFighting = true;
+            MessageBox.Show($"AttackEnnemy : {s.Name}");
             s.Attack(Ennemy);
+            OnPropertyChanged(nameof(EnnemyHP));
+            CanFighting = false;
         }
+        private readonly Random rand = new();
         public void GetNewEnnemy()
         {
-            Random rand = new();
-            Ennemy = new(AllMonsters.ElementAt(rand.Next(AllMonsters.Count))) { OnDamage = HandleOnDamage };
+            Ennemy = new(AllMonsters.ElementAt(rand.Next(AllMonsters.Count)));
+            Ennemy.OnDamage += HandleOnDamage;
+            OnPropertyChanged(nameof(EnnemyHP));
         }
-        public void HandleOnDamage(int health)
+
+        private int nbr = 0;
+        public async void HandleOnDamage(int health)
         {
+            nbr++;
+            MessageBox.Show($"HandleOnDamage : {nbr}");
+
             if (health <= 0)
             {
                 Ennemy.OnDamage -= HandleOnDamage;
+                OnPropertyChanged(nameof(EnnemyHP));
+                MessageBox.Show("Ennemy is dead");
+                //await Task.Delay(2000);
                 GetNewEnnemy();
+                MessageBox.Show($"New Ennemi : {Ennemy.Name}");
                 return;
+            }
+            else
+            {
+                MessageBox.Show($"EnnemyHP : {EnnemyHP}, {Ennemy.CurrentHP}");
             }
         }
         private void ChangeBack()

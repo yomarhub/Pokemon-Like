@@ -5,7 +5,7 @@ namespace PokeLike.Functions
     public class BattleMonster(Monster m) : Monster(m)
     {
         public Action<int>? OnDamage { get; set; }
-        public int CurrentHP { get; set; }
+        public int CurrentHP { get; set; } = m.Health;
     }
     public class Battle()
     {
