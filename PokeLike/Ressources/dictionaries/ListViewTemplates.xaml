@@ -3,23 +3,39 @@
                     xmlns:m="clr-namespace:PokeLike.Model"
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
 
+    <Style x:Key="Round0" TargetType="UserControl">
+        <Style.Resources>
+            <Style TargetType="Border">
+                <Setter Property="CornerRadius" Value="25,0,0,0" />
+            </Style>
+        </Style.Resources>
+    </Style>
+    <Style x:Key="Round1" BasedOn="{StaticResource MaterialDesignListBox}" TargetType="ListBox">
+        <Style.Resources>
+            <Style TargetType="Border">
+                <Setter Property="CornerRadius" Value="0,0,0,25" />
+            </Style>
+        </Style.Resources>
+    </Style>
     <DataTemplate x:Key="SpellList">
         <Label Content="{Binding Name}" FontFamily="{StaticResource PokeFont}" FontSize="12" />
     </DataTemplate>
-    <DataTemplate x:Key="PokeList">
+    <DataTemplate x:Key="PokeList" DataType="{x:Type m:Monster}">
         <StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Image Width="100" Source="{Binding ImageUrl}" />
-                <TextBlock VerticalAlignment="Center"
-                           FontFamily="{StaticResource PokeFont}"
-                           FontSize="24"
-                           Foreground="Red"
-                           Text="{Binding Name}" />
-                <TextBlock VerticalAlignment="Center"
-                           FontFamily="{StaticResource PokeFont}"
-                           FontSize="24"
-                           Foreground="Red"
-                           Text="{Binding Players}" />
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Margin="0,5"
+                               FontFamily="{StaticResource PokeFont}"
+                               FontSize="24"
+                               Foreground="Red"
+                               Text="{Binding Name}" />
+                    <TextBlock Margin="25,5,0,5"
+                               FontFamily="{StaticResource PokeFont}"
+                               FontSize="12"
+                               Foreground="DarkBlue"
+                               Text="{Binding Health, StringFormat='Health : {0}'}" />
+                </StackPanel>
             </StackPanel>
             <Grid>
                 <Grid.RowDefinitions>
@@ -56,7 +72,7 @@
                 <Image Width="50" VerticalAlignment="Center" Source="{Binding ImageUrl, TargetNullValue={x:Null}}" />
                 <TextBlock VerticalAlignment="Center"
                            FontFamily="{StaticResource PokeFont}"
-                           Foreground="White"
+                           FontWeight="ExtraBold"
                            Text="{Binding Name}" />
             </StackPanel>
 
@@ -117,46 +133,4 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <!--materialDesign:DialogHost x:Key="test"
-                               DialogClosed="Sample1_DialogHost_OnDialogClosed"
-                               DialogClosing="Sample1_DialogHost_OnDialogClosing"
-                               DialogContentUniformCornerRadius="20"
-                               DialogTheme="Inherit">
-        <materialDesign:DialogHost.DialogContent>
-            <StackPanel Margin="16">
-                <TextBlock Text="Add a new player." />
-                <TextBox x:Name="FruitTextBox" Margin="0,8,0,0" HorizontalAlignment="Stretch" Text="testest" />
-                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                    <Button Margin="0,8,8,0"
-                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
-                            Content="CANCEL"
-                            IsCancel="True"
-                            Style="{StaticResource MaterialDesignFlatButton}">
-                        <Button.CommandParameter>
-                            <system:Boolean xmlns:system="clr-namespace:System;assembly=mscorlib">
-                                False
-                            </system:Boolean>
-                        </Button.CommandParameter>
-                    </Button>
-                    <Button Margin="0,8,8,0"
-                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
-                            Content="ACCEPT"
-                            IsDefault="True"
-                            Style="{StaticResource MaterialDesignFlatButton}">
-                        <Button.CommandParameter>
-                            <system:Boolean xmlns:system="clr-namespace:System;assembly=mscorlib">
-                                True
-                            </system:Boolean>
-                        </Button.CommandParameter>
-                    </Button>
-                </StackPanel>
-            </StackPanel>
-        </materialDesign:DialogHost.DialogContent>
-        <ListBox Grid.Row="1"
-                 Margin="25"
-                 Background="#3FFFFFFF"
-                 ItemTemplate="{StaticResource Players}"
-                 ItemsSource="{Binding Players}"
-                 SelectedItem="{Binding SelectedPlayer}" />
-    </materialDesign:DialogHost-->
 </ResourceDictionary>
