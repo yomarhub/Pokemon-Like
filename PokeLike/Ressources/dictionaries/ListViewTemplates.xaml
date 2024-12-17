@@ -72,7 +72,9 @@
                 <Image Width="50" VerticalAlignment="Center" Source="{Binding ImageUrl, TargetNullValue={x:Null}}" />
                 <TextBlock VerticalAlignment="Center"
                            FontFamily="{StaticResource PokeFont}"
+                           FontSize="18"
                            FontWeight="ExtraBold"
+                           Foreground="Red"
                            Text="{Binding Name}" />
             </StackPanel>
 
@@ -87,7 +89,8 @@
                 </Grid.ColumnDefinitions>
                 <Grid.Resources>
                     <Style TargetType="Label">
-                        <Setter Property="FontSize" Value="12" />
+                        <Setter Property="FontSize" Value="14" />
+                        <Setter Property="FontWeight" Value="ExtraBold" />
                         <Setter Property="HorizontalAlignment" Value="Left" />
                         <Setter Property="VerticalAlignment" Value="Center" />
                     </Style>

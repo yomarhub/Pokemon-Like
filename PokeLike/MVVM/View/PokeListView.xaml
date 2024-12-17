@@ -39,7 +39,7 @@
                              Content="{Binding PlayersMonster}"
                              ContentTemplate="{DynamicResource PokeView}"
                              Style="{StaticResource Round0}" />
-                <md:DialogHost Grid.Row="1" Identifier="RootDialog">
+                <md:DialogHost Grid.Row="1" Identifier="RootDialog" Visibility="{Binding CanPlay, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Grid>
                         <ListBox Grid.Row="1"
                                  Margin="0,15,15,0"
