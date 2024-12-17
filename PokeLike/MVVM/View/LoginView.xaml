@@ -6,43 +6,41 @@
              xmlns:local="clr-namespace:PokeLike.MVVM.View"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             d:DataContext="{d:DesignInstance Type=VM:LoginViewVM}"
-             Height="450"
              Width="800"
+             Height="450"
+             d:DataContext="{d:DesignInstance Type=VM:LoginViewVM}"
              mc:Ignorable="d">
-
-    <Grid Margin="50">
-        <Grid.Background>
-            <SolidColorBrush Opacity="0.25" Color="Black" />
-        </Grid.Background>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <TextBox x:Name="NameTextBox"
-                 VerticalAlignment="Center"
-                 materialDesign:HintAssist.HelperText="Helper text longer than error"
-                 materialDesign:HintAssist.Hint="Name"
-                 FontSize="24"
-                 Text="{Binding UserName}" />
-        <PasswordBox Grid.Row="1"
+    <Border Margin="25" Background="#7FFFFFFF" CornerRadius="25">
+        <Grid Margin="25">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBox x:Name="NameTextBox"
                      VerticalAlignment="Center"
-                     materialDesign:HintAssist.Hint="Password"
-                     materialDesign:PasswordBoxAssist.Password="{Binding Password, Mode=TwoWay}"
-                     materialDesign:TextFieldAssist.HasClearButton="True"
+                     materialDesign:HintAssist.Hint="Name"
                      FontSize="24"
-                     Style="{StaticResource MaterialDesignFilledRevealPasswordBox}" />
-        <Button Grid.Row="2"
-                Width="150"
-                Command="{Binding RequestLogin}"
-                Content="Login"
-                IsDefault="True" />
-        <Button Grid.Row="3"
-                Grid.Column="0"
-                Width="150"
-                Command="{Binding RequestMainView}"
-                Content="Back" />
-    </Grid>
+                     Style="{StaticResource MaterialDesignFilledTextBox}"
+                     Text="{Binding UserName}" />
+            <PasswordBox Grid.Row="1"
+                         VerticalAlignment="Center"
+                         materialDesign:HintAssist.Hint="Password"
+                         materialDesign:PasswordBoxAssist.Password="{Binding Password, Mode=TwoWay}"
+                         materialDesign:TextFieldAssist.HasClearButton="True"
+                         FontSize="24"
+                         Style="{StaticResource MaterialDesignFilledRevealPasswordBox}" />
+            <Button Grid.Row="2"
+                    Width="150"
+                    Command="{Binding RequestLogin}"
+                    Content="Login"
+                    IsDefault="True" />
+            <Button Grid.Row="3"
+                    Grid.Column="0"
+                    Width="150"
+                    Command="{Binding RequestMainView}"
+                    Content="Back" />
+        </Grid>
+    </Border>
 </UserControl>

@@ -30,6 +30,34 @@ namespace PokeLike.MVVM.ViewModel
                 }
             }
         }
+
+        private ObservableCollection<Monster> monstersList;
+        public ObservableCollection<Monster> MonstersList { get => monstersList; set { SetProperty(ref monstersList, value); OnPropertyChanged(nameof(MonstersList)); } }
+
+        private string monsterFilter;
+        public string MonsterFilter { get => monsterFilter; set { SetProperty(ref monsterFilter, value); OnPropertyChanged(nameof(MonsterFilter)); UpdateMonsterList(); } }
+
+        private void UpdateMonsterList()
+        {
+            if (string.IsNullOrWhiteSpace(MonsterFilter))
+            {
+                MonstersList = new(_context.Monsters);
+                _ = LoadSpells();
+            }
+            else
+            {
+                // Monstres potenciel qui contienne la sous string MonsterFilter dans leurs nom
+                MonstersList = new(_context.Monsters.Where(m => m.Name.Contains(MonsterFilter)));
+                // Si Un monstre avec le nom MonsterFilter existe sans respect de la case alors mExist != null
+                Monster? mExist = MonstersList.FirstOrDefault(m => m.Name.Equals(MonsterFilter, StringComparison.CurrentCultureIgnoreCase));
+                // Affiche (les sorts que le monstre MonsterFilter connait)
+                // ou (les sorts que les monstres potenciels de MonsterList connaissent)
+                Spells = new(_context.Spells.Include(s => s.Monsters)
+                    .Where(s => !s.Monsters.All(m => (mExist != null) ? !(m == mExist) : !MonstersList.Contains(m)))
+                    );
+                SelectedSpell = Spells.FirstOrDefault();
+            }
+        }
         #endregion
         public SpellListViewVM() : base() { }
 
@@ -37,16 +65,18 @@ namespace PokeLike.MVVM.ViewModel
         {
             base.OnShowView();
             MainWindowVM.OnRequestMessage?.Invoke("Loading...");
-            _ = LoadSpells();
+            _ = LoadSpells(true);
 
-            async Task LoadSpells() => await Task.Run(() =>
-            {
-                Spells = new(_context.Spells.Include(m => m.Monsters));
-                selectedSpell = Spells.First();
-
-                MainWindowVM.OnRequestClearMessages?.Invoke();
-                MainWindowVM.OnRequestMessage?.Invoke("Spell loaded");
-            });
         }
+        private async Task LoadSpells(bool showMessage = false) => await Task.Run(() =>
+            {
+                Spells = new(_context.Spells.Include(s => s.Monsters));
+                SelectedSpell = Spells.First();
+                if (showMessage)
+                {
+                    MainWindowVM.OnRequestClearMessages?.Invoke();
+                    MainWindowVM.OnRequestMessage?.Invoke("Spell loaded");
+                }
+            });
     }
 }
