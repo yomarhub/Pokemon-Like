@@ -20,11 +20,11 @@ namespace PokeLike.MVVM.ViewModel
         }
 
         private Spell? selectedSpell;
-        public Spell? SelectedSpell
+        public object? SelectedSpell
         {
             get => selectedSpell; set
             {
-                if (SetProperty(ref selectedSpell, value))
+                if (value is Spell && SetProperty(ref selectedSpell, value as Spell))
                 {
                     OnPropertyChanged(nameof(SelectedSpell));
                 }
