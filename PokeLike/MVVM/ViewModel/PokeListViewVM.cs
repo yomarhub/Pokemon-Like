@@ -14,11 +14,17 @@ namespace PokeLike.MVVM.ViewModel
         #region Variables
         private RelayCommand? changeMonster;
         public ICommand ChangeMonster => changeMonster ??= new RelayCommand(HandleChangeMonster);
-        public static Visibility CanStartGame
+
+        private Visibility canStartGame = Visibility.Collapsed;
+        public Visibility CanStartGame
         {
-            get => (Session.User != null
-                && Session.CurrentPlayer != null
-                && Session.CurrentMonster != null) ? Visibility.Visible : Visibility.Collapsed;
+            get => canStartGame; set
+            {
+                if (SetProperty(ref canStartGame, value))
+                {
+                    OnPropertyChanged(nameof(CanStartGame));
+                }
+            }
         }
         private ObservableCollection<Monster>? monsters;
         public ObservableCollection<Monster> Monsters
@@ -52,9 +58,17 @@ namespace PokeLike.MVVM.ViewModel
                 {
                     OnPropertyChanged(nameof(SelectedPlayer));
                     OnPropertyChanged(nameof(PlayersMonster));
-                    OnPropertyChanged(nameof(CanStartGame));
+                    Session.CurrentPlayer = SelectedPlayer;
+                    Session.CurrentMonster = SelectedPlayer?.Monsters.FirstOrDefault();
+                    UpdateCanStartGame();
                 }
             }
+        }
+
+        private void UpdateCanStartGame()
+        {
+            CanStartGame = (Session.User != null && Session.CurrentPlayer != null && Session.CurrentMonster != null)
+                ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private ObservableCollection<Player>? players;
@@ -73,9 +87,9 @@ namespace PokeLike.MVVM.ViewModel
             get => SelectedPlayer?.Monsters.FirstOrDefault() ?? _defaultMonster;
             set
             {
-                Session.CurrentMonster = value;
                 OnPropertyChanged(nameof(PlayersMonster));
-                OnPropertyChanged(nameof(CanStartGame));
+                Session.CurrentMonster = PlayersMonster;
+                UpdateCanStartGame();
             }
         }
         #endregion
@@ -90,6 +104,8 @@ namespace PokeLike.MVVM.ViewModel
             p.Monsters.Add(_context.Monsters.Include(m => m.Spells).First(m => m.Id == SelectedMonster.Id));
             _context.SaveChanges();
             PlayersMonster = p.Monsters.First();
+            Session.CurrentMonster = (PlayersMonster != _defaultMonster) ? PlayersMonster : null;
+            UpdateCanStartGame();
         }
         /*
         private void HandleChangeMonster()
