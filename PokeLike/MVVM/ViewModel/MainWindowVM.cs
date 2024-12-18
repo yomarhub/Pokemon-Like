@@ -2,7 +2,6 @@
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using MaterialDesignThemes.Wpf;
-using PokeLike.Functions;
 
 namespace PokeLike.MVVM.ViewModel
 {
@@ -52,7 +51,6 @@ namespace PokeLike.MVVM.ViewModel
             OnRequestChangeBackground += (b) => Background = b;
             OnRequestVMChange += HandleRequestViewChange;
             OnRequestVMChange?.Invoke(new MainViewVM());
-            _ = new Init();
         }
 
         public void HandleRequestViewChange(BaseVM a_VMToChange)

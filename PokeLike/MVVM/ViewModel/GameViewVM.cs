@@ -52,6 +52,7 @@ namespace PokeLike.MVVM.ViewModel
             Attack = new(AttackEnnemy!);
             AllMonsters = new(_context.Monsters.Include(m => m.Spells));
             ally = new(Session.CurrentMonster!);
+            ally.OnDamage += HandleAllyDamage;
             ennemy = new(AllMonsters.ElementAt(rand.Next(AllMonsters.Count))) { OnDamage = HandleOnDamage };
             MessageBox.Show($"allyHP : {AllyHP}" +
                 $"\nennemyHP : {EnnemyHP}" +
@@ -82,7 +83,7 @@ namespace PokeLike.MVVM.ViewModel
                 if (health <= 0)
                 {
                     Ennemy.OnDamage -= HandleOnDamage;
-                    OnPropertyChanged(nameof(EnnemyHP));
+                    OnPropertyChanged(nameof(ViewModel.GameViewVM.EnnemyHP));
                     MessageBox.Show("Ennemy is dead");
                     Session.CurrentScore++;
                     Task.Delay(2000);
@@ -91,10 +92,13 @@ namespace PokeLike.MVVM.ViewModel
                 else
                 {
                     MessageBox.Show($"EnnemyHP : {EnnemyHP}, {Ennemy.CurrentHP}, {Ennemy.Spells.Count}");
-                    Ennemy.Spells.ElementAt(rand.Next(Ennemy.Spells.Count)).Attack(Ally, true);
+                    Spell RandomEnnemySpell = Ennemy.Spells.ElementAt(rand.Next(Ennemy.Spells.Count));
+                    RandomEnnemySpell.Attack(Ally, true);
                 }
                 CanFight = true;
             });
+
+        public void HandleAllyDamage(int health) => MessageBox.Show($"AllyHP : {AllyHP}, {Ally.CurrentHP}, {Ally.Spells.Count}");
         private void ChangeBack()
         {
             if (_backgrounds.Count < 1) return;
