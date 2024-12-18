@@ -5,7 +5,7 @@ namespace PokeLike.Functions
     public class BattleMonster(Monster m) : Monster(m)
     {
         public Action<int>? OnDamage { get; set; }
-        public int CurrentHP { get; set; }
+        public int CurrentHP { get; set; } = m.Health;
     }
     public class Battle()
     {
@@ -20,9 +20,10 @@ namespace PokeLike.Functions
             int i = r.Next(a.Spells.Count);
             Attack(a.Spells.ElementAt(i), d);
         }
-        public static void Attack(this Spell a, BattleMonster d)
+        public static void Attack(this Spell a, BattleMonster d, bool boosted = false)
         {
-            d.CurrentHP -= (d.CurrentHP > a.Damage) ? a.Damage : d.CurrentHP;
+            int boostedDamage = (boosted) ? a.Damage * (Session.CurrentScore + 1) : a.Damage;
+            d.CurrentHP -= (d.CurrentHP > boostedDamage) ? boostedDamage : d.CurrentHP;
             d.OnDamage?.Invoke(d.CurrentHP);
             //if (d.CurrentHP <= 0) { Death?.Invoke(); }
         }
