@@ -64,8 +64,8 @@ namespace PokeLike.MVVM.ViewModel
         public void AttackEnnemy(Spell s)
         {
             if (!CanFight) return;
+            if (Ennemy.CurrentHP <= 0) { GetNewEnnemy(); return; }
             CanFight = false;
-            Task.Run(() => MessageBox.Show($"AttackEnnemy : {s.Name}"));
             s.Attack(Ennemy);
             OnPropertyChanged(nameof(EnnemyHP));
         }
@@ -86,8 +86,7 @@ namespace PokeLike.MVVM.ViewModel
                     MessageBox.Show("Ennemy is dead");
                     Session.CurrentScore++;
                     Task.Delay(2000);
-                    GetNewEnnemy();
-                    MessageBox.Show($"New Ennemi : {Ennemy.Name}");
+                    MessageBox.Show("To generate a new enemy click on any spell");
                 }
                 else
                 {

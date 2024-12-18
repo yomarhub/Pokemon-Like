@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:PokeLike.MVVM.View"
              xmlns:m="clr-namespace:PokeLike.Model"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
              Width="675"
              Height="450"
              d:DataContext="{d:DesignInstance Type=VM:GameViewVM}"
@@ -48,18 +49,18 @@
                              Margin="0,10,0,0"
                              VerticalAlignment="Top"
                              Value="{Binding EnnemyHP}" />
-                <Image Width="100"
-                       Height="100"
-                       Margin="117,232,0,0"
+                <Image Width="200"
+                       Height="200"
+                       Margin="60,165,0,0"
                        HorizontalAlignment="Left"
                        VerticalAlignment="Top"
                        Source="{Binding Ally.ImageUrl}" />
 
 
                 <Image Grid.Column="1"
-                       Width="100"
-                       Height="100"
-                       Margin="116,79,0,0"
+                       Width="200"
+                       Height="200"
+                       Margin="50,25,0,0"
                        HorizontalAlignment="Left"
                        VerticalAlignment="Top"
                        Source="{Binding Ennemy.ImageUrl}" />
@@ -144,6 +145,14 @@
                         <DataGrid Grid.RowSpan="2" Grid.ColumnSpan="2" ItemTemplate="{StaticResource Spell}" /-->
                 </Grid>
             </Border>
+            <Button Margin="10,10,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Command="{Binding RequestMainView}"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
+                    ToolTip="Create Player">
+                <md:PackIcon Width="30" Height="30" Kind="ArrowLeft" />
+            </Button>
         </Grid>
     </Viewbox>
 </UserControl>
