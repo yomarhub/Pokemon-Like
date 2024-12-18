@@ -31,6 +31,7 @@ namespace PokeLike.MVVM.ViewModel
             }
             catch { MainWindowVM.OnRequestMessage?.Invoke("Server doesn't exist : Check for the Server Name"); return; }
             Session.DbConnected = true;
+            // Comment this line to avoid the database recreation
             _ = new Init();
         }
 

@@ -79,9 +79,9 @@ namespace PokeLike.MVVM.ViewModel
         }
 
         private bool first = true;
-        public async void HandleOnDamage(int health) => await Task.Run(() =>
+        public async void HandleOnDamage(int damage) => await Task.Run(() =>
             {
-                if (health <= 0)
+                if (EnnemyHP <= 0)
                 {
                     Ennemy.OnDamage -= HandleOnDamage;
                     OnPropertyChanged(nameof(ViewModel.GameViewVM.EnnemyHP));
@@ -89,25 +89,31 @@ namespace PokeLike.MVVM.ViewModel
                     Session.Score++;
                     Task.Delay(2000);
                     if (first) { first = false; MessageBox.Show("To generate a new enemy click on any spell"); }
+                    CanFight = true;
                 }
                 else
                 {
-                    MessageBox.Show($"EnnemyHP : {EnnemyHP}, {Ennemy.CurrentHP}, {Ennemy.Spells.Count}");
+                    MessageBox.Show($"EnnemyHP : {EnnemyHP}, {Ennemy.CurrentHP} / {Ennemy.Health}");
                     Spell RandomEnnemySpell = Ennemy.Spells.ElementAt(rand.Next(Ennemy.Spells.Count));
+                    MessageBox.Show($"Ennemy attack with {RandomEnnemySpell.Name}");
                     RandomEnnemySpell.Attack(Ally, true);
                 }
-                CanFight = true;
             });
 
-        public void HandleAllyDamage(int health)
+        public void HandleAllyDamage(int damage)
         {
-            if (health <= 0)
+            if (AllyHP <= 0)
             {
-                MessageBox.Show("You are dead");
-                CanFight = false;
+                MessageBox.Show("You are dead, return to main menu to restart");
+                Session.Score = 0;
             }
-            else MessageBox.Show($"AllyHP : {AllyHP}, {Ally.CurrentHP}, {Ally.Spells.Count}");
+            else
+            {
+                MessageBox.Show($"AllyHP : {AllyHP}, {Ally.CurrentHP} / {Ally.Health}");
+                MessageBox.Show($"You take {damage} HP of Damage");
+            }
             OnPropertyChanged(nameof(AllyHP));
+            CanFight = AllyHP > 0;
         }
         private void ChangeBack()
         {
