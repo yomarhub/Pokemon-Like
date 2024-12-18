@@ -60,7 +60,7 @@ Run the program
 
 ## Note
 
-It can take some time to fetc hthe pokemon list that's normal
+It can take some time to fetch the pokemon list that's normal
 ## Authors
 
 - [@yomarhub](https://www.github.com/yomarhub)
