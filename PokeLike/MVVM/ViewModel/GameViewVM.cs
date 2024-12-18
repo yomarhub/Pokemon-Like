@@ -54,13 +54,13 @@ namespace PokeLike.MVVM.ViewModel
             ally = new(Session.CurrentMonster!);
             ally.OnDamage += HandleAllyDamage;
             ennemy = new(AllMonsters.ElementAt(rand.Next(AllMonsters.Count))) { OnDamage = HandleOnDamage };
-            MessageBox.Show($"allyHP : {AllyHP}" +
-                $"\nennemyHP : {EnnemyHP}" +
-                $"\nAllyPercent : {Ally.CurrentHP / Ally.Health * 100.0}" +
-                $"\nEnnemyPercent : {Ennemy.CurrentHP / Ennemy.Health * 100.0}" +
-                $"\nAlly.CurrentHP : {Ally.CurrentHP}" +
-                $"\n(double)Ennemy.CurrentHP : {(double)Ennemy.CurrentHP}" +
-                $"\nAlly.Health : {Ally.Health}");
+            //MessageBox.Show($"allyHP : {AllyHP}" +
+            //    $"\nennemyHP : {EnnemyHP}" +
+            //    $"\nAllyPercent : {Ally.CurrentHP / Ally.Health * 100.0}" +
+            //    $"\nEnnemyPercent : {Ennemy.CurrentHP / Ennemy.Health * 100.0}" +
+            //    $"\nAlly.CurrentHP : {Ally.CurrentHP}" +
+            //    $"\n(double)Ennemy.CurrentHP : {(double)Ennemy.CurrentHP}" +
+            //    $"\nAlly.Health : {Ally.Health}");
         }
         public void AttackEnnemy(Spell s)
         {
@@ -78,16 +78,17 @@ namespace PokeLike.MVVM.ViewModel
             OnPropertyChanged(nameof(EnnemyHP));
         }
 
+        private bool first = true;
         public async void HandleOnDamage(int health) => await Task.Run(() =>
             {
                 if (health <= 0)
                 {
                     Ennemy.OnDamage -= HandleOnDamage;
                     OnPropertyChanged(nameof(ViewModel.GameViewVM.EnnemyHP));
-                    MessageBox.Show("Ennemy is dead");
-                    Session.CurrentScore++;
+                    MessageBox.Show($"Congratulation the Ennemy is dead your current score is : {Session.Score}");
+                    Session.Score++;
                     Task.Delay(2000);
-                    MessageBox.Show("To generate a new enemy click on any spell");
+                    if (first) { first = false; MessageBox.Show("To generate a new enemy click on any spell"); }
                 }
                 else
                 {
@@ -98,7 +99,16 @@ namespace PokeLike.MVVM.ViewModel
                 CanFight = true;
             });
 
-        public void HandleAllyDamage(int health) => MessageBox.Show($"AllyHP : {AllyHP}, {Ally.CurrentHP}, {Ally.Spells.Count}");
+        public void HandleAllyDamage(int health)
+        {
+            if (health <= 0)
+            {
+                MessageBox.Show("You are dead");
+                CanFight = false;
+            }
+            else MessageBox.Show($"AllyHP : {AllyHP}, {Ally.CurrentHP}, {Ally.Spells.Count}");
+            OnPropertyChanged(nameof(AllyHP));
+        }
         private void ChangeBack()
         {
             if (_backgrounds.Count < 1) return;

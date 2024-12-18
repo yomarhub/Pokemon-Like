@@ -8,7 +8,7 @@ namespace PokeLike.Functions
         public static Login? User { get; set; }
         public static Player? CurrentPlayer { get; set; }
         public static Monster? CurrentMonster { get; set; }
-        public static int CurrentScore { get; set; } = 0;
+        public static int Score { get; set; } = 0;
         public static bool DbConnected { get; set; } = false;
         public static void Show()
         {
