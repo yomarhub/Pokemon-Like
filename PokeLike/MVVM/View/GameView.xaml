@@ -51,7 +51,7 @@
                              Value="{Binding EnnemyHP}" />
                 <Image Width="200"
                        Height="200"
-                       Margin="60,165,0,0"
+                       Margin="60,195,0,0"
                        HorizontalAlignment="Left"
                        VerticalAlignment="Top"
                        Source="{Binding Ally.ImageUrl}" />
@@ -82,11 +82,11 @@
             <Border Grid.Row="1"
                     Padding="25"
                     Background="{StaticResource TextBar}"
-                    Visibility="{Binding CanFighting, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    Visibility="{Binding CanFight, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Border Grid.Row="1"
                     Padding="25"
                     Background="{StaticResource TextBar}"
-                    Visibility="{Binding CanFighting, Converter={StaticResource InvertBooleanConverter}}">
+                    Visibility="{Binding CanFight, Converter={StaticResource InvertBooleanConverter}}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />

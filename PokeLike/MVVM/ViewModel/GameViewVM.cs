@@ -52,14 +52,15 @@ namespace PokeLike.MVVM.ViewModel
             Attack = new(AttackEnnemy!);
             AllMonsters = new(_context.Monsters.Include(m => m.Spells));
             ally = new(Session.CurrentMonster!);
+            ally.OnDamage += HandleAllyDamage;
             ennemy = new(AllMonsters.ElementAt(rand.Next(AllMonsters.Count))) { OnDamage = HandleOnDamage };
-            MessageBox.Show($"allyHP : {AllyHP}" +
-                $"\nennemyHP : {EnnemyHP}" +
-                $"\nAllyPercent : {Ally.CurrentHP / Ally.Health * 100.0}" +
-                $"\nEnnemyPercent : {Ennemy.CurrentHP / Ennemy.Health * 100.0}" +
-                $"\nAlly.CurrentHP : {Ally.CurrentHP}" +
-                $"\n(double)Ennemy.CurrentHP : {(double)Ennemy.CurrentHP}" +
-                $"\nAlly.Health : {Ally.Health}");
+            //MessageBox.Show($"allyHP : {AllyHP}" +
+            //    $"\nennemyHP : {EnnemyHP}" +
+            //    $"\nAllyPercent : {Ally.CurrentHP / Ally.Health * 100.0}" +
+            //    $"\nEnnemyPercent : {Ennemy.CurrentHP / Ennemy.Health * 100.0}" +
+            //    $"\nAlly.CurrentHP : {Ally.CurrentHP}" +
+            //    $"\n(double)Ennemy.CurrentHP : {(double)Ennemy.CurrentHP}" +
+            //    $"\nAlly.Health : {Ally.Health}");
         }
         public void AttackEnnemy(Spell s)
         {
@@ -77,24 +78,43 @@ namespace PokeLike.MVVM.ViewModel
             OnPropertyChanged(nameof(EnnemyHP));
         }
 
-        public async void HandleOnDamage(int health) => await Task.Run(() =>
+        private bool first = true;
+        public async void HandleOnDamage(int damage) => await Task.Run(() =>
             {
-                if (health <= 0)
+                if (EnnemyHP <= 0)
                 {
                     Ennemy.OnDamage -= HandleOnDamage;
-                    OnPropertyChanged(nameof(EnnemyHP));
-                    MessageBox.Show("Ennemy is dead");
-                    Session.CurrentScore++;
+                    OnPropertyChanged(nameof(ViewModel.GameViewVM.EnnemyHP));
+                    MessageBox.Show($"Congratulation the Ennemy is dead your current score is : {Session.Score}");
+                    Session.Score++;
                     Task.Delay(2000);
-                    MessageBox.Show("To generate a new enemy click on any spell");
+                    if (first) { first = false; MessageBox.Show("To generate a new enemy click on any spell"); }
+                    CanFight = true;
                 }
                 else
                 {
-                    MessageBox.Show($"EnnemyHP : {EnnemyHP}, {Ennemy.CurrentHP}, {Ennemy.Spells.Count}");
-                    Ennemy.Spells.ElementAt(rand.Next(Ennemy.Spells.Count)).Attack(Ally, true);
+                    MessageBox.Show($"EnnemyHP : {EnnemyHP}, {Ennemy.CurrentHP} / {Ennemy.Health}");
+                    Spell RandomEnnemySpell = Ennemy.Spells.ElementAt(rand.Next(Ennemy.Spells.Count));
+                    MessageBox.Show($"Ennemy attack with {RandomEnnemySpell.Name}");
+                    RandomEnnemySpell.Attack(Ally, true);
                 }
-                CanFight = true;
             });
+
+        public void HandleAllyDamage(int damage)
+        {
+            if (AllyHP <= 0)
+            {
+                MessageBox.Show("You are dead, return to main menu to restart");
+                Session.Score = 0;
+            }
+            else
+            {
+                MessageBox.Show($"AllyHP : {AllyHP}, {Ally.CurrentHP} / {Ally.Health}");
+                MessageBox.Show($"You take {damage} HP of Damage");
+            }
+            OnPropertyChanged(nameof(AllyHP));
+            CanFight = AllyHP > 0;
+        }
         private void ChangeBack()
         {
             if (_backgrounds.Count < 1) return;

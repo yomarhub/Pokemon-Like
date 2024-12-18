@@ -14,7 +14,7 @@ namespace PokeLike.MVVM.ViewModel
         public RelayCommand<Type> RequestView { get; set; }
         #endregion
 
-        protected readonly ExerciceMonsterContext _context = new();
+        protected ExerciceMonsterContext _context { get; set; } = new();
 
         public BaseVM()
         {
@@ -26,6 +26,11 @@ namespace PokeLike.MVVM.ViewModel
         private void HandleRequestView(Type vmType)
         {
             if (vmType == null || !typeof(BaseVM).IsAssignableFrom(vmType)) return;
+            if (!Session.DbConnected && (vmType != typeof(SettingsViewVM) && vmType != typeof(MainViewVM)))
+            {
+                MainWindowVM.OnRequestMessage?.Invoke("Please connect to the database first");
+                return;
+            }
             try
             {
                 // Dynamically create an instance of the ViewModel

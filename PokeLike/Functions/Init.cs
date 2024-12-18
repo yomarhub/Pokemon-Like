@@ -14,8 +14,12 @@ namespace PokeLike.Functions
         public Init()
         {
             //DB();
-            DBLogic.RecreateDB();
-            AddUsers().ContinueWith((Task _) => ImportFromJSON());
+            Task.Run(async () =>
+            {
+                DBLogic.RecreateDB();
+                await AddUsers();
+                ImportFromJSON();
+            });
         }
 
         private static readonly string path = "Ressources/jsons/";
@@ -36,8 +40,6 @@ namespace PokeLike.Functions
             string monsterSpellString = File.ReadAllText(path + "monsterSpell.json");
             List<MonsterSpell> MonsterSpells = JsonConvert.DeserializeObject<List<MonsterSpell>>(monsterSpellString)!;
 
-            _context.AddRange(Players);
-            _context.SaveChanges();
             var strategy = _context.Database.CreateExecutionStrategy();
             strategy.Execute(() =>
             {
@@ -57,6 +59,9 @@ namespace PokeLike.Functions
                 _context.SaveChanges();
                 transaction.Commit();
             });
+            _context.AddRange(Logins);
+            _context.AddRange(Players);
+            _context.SaveChanges();
         }
         #region InsertWithIds
 

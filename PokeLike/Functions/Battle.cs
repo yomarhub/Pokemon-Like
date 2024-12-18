@@ -22,9 +22,9 @@ namespace PokeLike.Functions
         }
         public static void Attack(this Spell a, BattleMonster d, bool boosted = false)
         {
-            int boostedDamage = (boosted) ? a.Damage * (Session.CurrentScore + 1) : a.Damage;
+            int boostedDamage = (boosted) ? a.Damage * (Session.Score + 1) : a.Damage;
             d.CurrentHP -= (d.CurrentHP > boostedDamage) ? boostedDamage : d.CurrentHP;
-            d.OnDamage?.Invoke(d.CurrentHP);
+            d.OnDamage?.Invoke(boostedDamage);
             //if (d.CurrentHP <= 0) { Death?.Invoke(); }
         }
     }

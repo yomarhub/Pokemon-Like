@@ -36,17 +36,9 @@
                FontSize="72"
                Foreground="Yellow" />
         <Button Grid.Row="2"
-                Grid.Column="1"
-                Margin="0,27,0,0"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Top"
-                Command="{Binding RequestDB}"
-                Content="Connect to db" />
-        <Button Grid.Row="2"
-                Grid.Column="3"
-                Margin="0,27,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
+                Grid.Column="2"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
                 Command="{Binding RequestView}"
                 CommandParameter="{x:Type VM:LoginViewVM}"
                 Content="Login"
@@ -72,10 +64,9 @@
             Visibility="{Binding CanPlay, Converter={StaticResource BooleanToVisibilityConverter}}" /
         -->
         <Button Grid.Row="3"
-                Grid.Column="1"
-                Grid.ColumnSpan="3"
+                Grid.Column="2"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Bottom"
+                VerticalAlignment="Center"
                 Command="{Binding RequestView}"
                 CommandParameter="{x:Type VM:PokeListViewVM}"
                 Content="List Pokemons"
